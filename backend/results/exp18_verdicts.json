@@ -1,0 +1,173 @@
+{
+ "question": "experiment 14's published world-model row could not be regenerated; is training length the reason?",
+ "horizon": 6,
+ "epoch_grid": [
+  6,
+  12,
+  18,
+  25,
+  40
+ ],
+ "seeds": [
+  0,
+  1
+ ],
+ "gbdt_control": {
+  "caught": 7,
+  "n_attack": 12,
+  "mean_lead": 8.083333333333334,
+  "fpr": 0.08823529411764706,
+  "auc": 0.6235108133293964,
+  "matches_exp14": true
+ },
+ "rows": [
+  {
+   "caught": 1,
+   "n_attack": 12,
+   "mean_lead": 2.5,
+   "fpr": 0.0392156862745098,
+   "auc": 0.44226438326129597,
+   "epochs": 6,
+   "seed": 0
+  },
+  {
+   "caught": 2,
+   "n_attack": 12,
+   "mean_lead": 5.0,
+   "fpr": 0.029411764705882353,
+   "auc": 0.48054401389503115,
+   "epochs": 6,
+   "seed": 1
+  },
+  {
+   "caught": 4,
+   "n_attack": 12,
+   "mean_lead": 8.916666666666666,
+   "fpr": 0.0784313725490196,
+   "auc": 0.2977391791634702,
+   "epochs": 12,
+   "seed": 0
+  },
+  {
+   "caught": 4,
+   "n_attack": 12,
+   "mean_lead": 8.916666666666666,
+   "fpr": 0.058823529411764705,
+   "auc": 0.3146865512327875,
+   "epochs": 12,
+   "seed": 1
+  },
+  {
+   "caught": 4,
+   "n_attack": 12,
+   "mean_lead": 8.916666666666666,
+   "fpr": 0.058823529411764705,
+   "auc": 0.3137285920510426,
+   "epochs": 18,
+   "seed": 0
+  },
+  {
+   "caught": 4,
+   "n_attack": 12,
+   "mean_lead": 8.916666666666666,
+   "fpr": 0.058823529411764705,
+   "auc": 0.3453345694912224,
+   "epochs": 18,
+   "seed": 1
+  },
+  {
+   "caught": 4,
+   "n_attack": 12,
+   "mean_lead": 8.916666666666666,
+   "fpr": 0.09803921568627451,
+   "auc": 0.5128475820898593,
+   "epochs": 25,
+   "seed": 0
+  },
+  {
+   "caught": 0,
+   "n_attack": 12,
+   "mean_lead": 0.0,
+   "fpr": 0.0,
+   "auc": 0.5444952983117091,
+   "epochs": 25,
+   "seed": 1
+  },
+  {
+   "caught": 1,
+   "n_attack": 12,
+   "mean_lead": 2.25,
+   "fpr": 0.09803921568627451,
+   "auc": 0.7996708935885418,
+   "epochs": 40,
+   "seed": 0
+  },
+  {
+   "caught": 1,
+   "n_attack": 12,
+   "mean_lead": 2.25,
+   "fpr": 0.08823529411764706,
+   "auc": 0.5806279636960361,
+   "epochs": 40,
+   "seed": 1
+  }
+ ],
+ "by_epochs": {
+  "6": {
+   "caught": 1.5,
+   "auc": 0.46140419857816356,
+   "mean_lead": 3.75
+  },
+  "12": {
+   "caught": 4.0,
+   "auc": 0.30621286519812885,
+   "mean_lead": 8.916666666666666
+  },
+  "18": {
+   "caught": 4.0,
+   "auc": 0.3295315807711325,
+   "mean_lead": 8.916666666666666
+  },
+  "25": {
+   "caught": 2.0,
+   "auc": 0.5286714402007842,
+   "mean_lead": 4.458333333333333
+  },
+  "40": {
+   "caught": 1.0,
+   "auc": 0.6901494286422889,
+   "mean_lead": 2.25
+  }
+ },
+ "trend": {
+  "epochs_vs_detections_r": -0.45128743760009116,
+  "epochs_vs_auc_r": 0.7795378629753179,
+  "best_epochs": 12
+ },
+ "reproduces_exp14": [
+  {
+   "epochs": 40,
+   "seed": 1,
+   "auc": 0.5806279636960361
+  }
+ ],
+ "published": {
+  "exp14_wm_caught": 1,
+  "exp14_wm_auc": 0.6634,
+  "exp14_gbdt_caught": 7
+ },
+ "verdicts": {
+  "P1": true,
+  "P2": true,
+  "P3": true,
+  "P4": true,
+  "P5": true
+ },
+ "detail": {
+  "P1": "reproduced at 40 epochs",
+  "P2": "epochs vs detections r = -0.451 (1.5 at 6 -> 1.0 at 40)",
+  "P3": "epochs vs AUC r = +0.780 (0.461 -> 0.690)",
+  "P4": "best world model 4.0 vs gradient boosting 7",
+  "P5": "best epoch count 12; experiment 15's grid started at 25"
+ }
+}

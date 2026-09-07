@@ -1,0 +1,34 @@
+==============================================================================
+KALACHAKRA  ·  Experiment 12  ·  ORACLE DIAGNOSTIC (leaky by design)
+==============================================================================
+  This trains on the evaluation target. Its number is NOT performance.
+
+[1/3] Rebuilding exp11's data ...
+      oracle target: sd 0.1189 (range 0.30-0.83)
+      noisy  target: sd 0.4978 (single Bernoulli draw per pair)
+      correlation between them: +0.279
+
+[2/3] Training on the ORACLE target ...
+        [effect] epoch 10  pred 0.7785  rollout-stage 0.5869  effect 0.3569
+        [effect] epoch 20  pred 0.8934  rollout-stage 0.5359  effect 0.3340
+        [effect] epoch 30  pred 0.9678  rollout-stage 0.4863  effect 0.2690
+      done in 379s
+
+[3/3] Diagnosis
+                             sd eff  direction  r(p_contain)
+      control (exp11)        0.2860      0.810        +0.009
+      noisy target (exp11)   0.3023      0.940        +0.037
+      ORACLE target          0.3130      0.880        +0.011
+
+==============================================================================
+VERDICT  (diagnostic only - this number is not performance)
+==============================================================================
+  Even a noise-free target does not produce a heterogeneous
+  effect. The limit is structural, not statistical: the context
+  the rollout conditions on does not carry the information, or
+  the rollout washes it out.
+  -> Next: stop pursuing heterogeneity through this rollout, and
+     say plainly that the model predicts an average effect only.
+
+  wrote results/exp12_verdicts.json
+  total runtime 401.6s

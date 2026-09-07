@@ -1,0 +1,38 @@
+{
+  "n_test_pairs": 200,
+  "horizon": 6,
+  "ground_truth": {
+    "mean_p_contain": 0.5042688846588135,
+    "frac_worked": 0.5
+  },
+  "world_model": {
+    "mean_effect": 0.0750277280807495,
+    "sd": 0.1848173102870445,
+    "direction_accuracy": 0.82,
+    "pearson_p_contain": -0.10471730011865332,
+    "pearson_p_value": 0.14002337530952808,
+    "spearman_p_contain": -0.026944453923875813,
+    "pearson_worked": 0.07611186915624886
+  },
+  "action_aware_lstm": {
+    "mean_effect": 0.06979863167740405,
+    "sd": 0.25063179017779863,
+    "direction_accuracy": 0.48,
+    "pearson_p_contain": 0.0014196998138102618,
+    "pearson_p_value": 0.9840818629702969,
+    "spearman_p_contain": -0.024984624615615392,
+    "pearson_worked": 0.01350260525527056
+  },
+  "collapse_diagnostic": {
+    "mean_std": 1.0780878067016602,
+    "min_std": 0.9749182462692261,
+    "effective_rank": 41.10734176635742,
+    "dim": 64
+  },
+  "verdicts": {
+    "R1": true,
+    "R2": true,
+    "R3": false,
+    "R4": false
+  }
+}

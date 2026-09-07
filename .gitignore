@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------- datasets
+# CTU-13 is a third-party corpus (Stratosphere Lab, CTU Prague), ~2.6 GB, and
+# is not ours to redistribute. Fetch it with backend/fetch_ctu13.py.
+data/
+*.zip
+
+# ------------------------------------------------- regenerable run artefacts
+# The episode caches are ~459 MB each and are rebuilt from the corpus by
+# experiment 14. Every verdicts JSON, run log and the demo payload ARE tracked
+# - those are the evidence the project's claims rest on.
+*.pkl
+**/results/*.jsonl
+
+# ------------------------------------------------------------------ python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# ------------------------------------------------------------ os / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/

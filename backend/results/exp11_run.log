@@ -1,0 +1,39 @@
+==============================================================================
+KALACHAKRA  ·  Experiment 11  ·  Supervising the counterfactual delta
+==============================================================================
+
+[1/4] Generating episodes ...
+      460 observational + 665 pairs (465 train / 200 test)
+
+[2/4] Building tensors ...
+      effect target: realised binary difference, 55.3% positive  (p_contain never used)
+
+[3/4] Training control and effect-supervised models ...
+        [  base] epoch 10  pred 0.7996  rollout-stage 0.5768
+        [  base] epoch 20  pred 0.9122  rollout-stage 0.5328
+        [  base] epoch 30  pred 0.9728  rollout-stage 0.4858
+      control done in 255s
+        [effect] epoch 10  pred 0.7711  rollout-stage 0.5876  effect 0.8525
+        [effect] epoch 20  pred 0.8861  rollout-stage 0.5329  effect 0.7890
+        [effect] epoch 30  pred 0.9631  rollout-stage 0.4854  effect 0.7072
+      effect-supervised done in 356s
+
+[4/4] Held-out comparison
+                          mean eff   sd eff  direction  r(p_contain)        p
+      control              +0.1934   0.2860      0.810        +0.009      0.9
+      effect_supervised    +0.3301   0.3023      0.940        +0.037     0.61
+
+==============================================================================
+PRE-REGISTERED PREDICTIONS
+==============================================================================
+  AA1  FAILS   r(effect, p_contain) > 0.30 (+0.037)  [THE CLAIM]
+  AA2  HOLDS   beats the unsupervised control (+0.037 vs +0.009)
+  AA3  HOLDS   direction accuracy held (0.940 vs 0.810)
+  AA4  HOLDS   effect spread increased (0.3023 vs 0.2860)
+
+  !! AA1 FAILED. Supervising the delta did not produce a
+     heterogeneous effect either. Report it and stop claiming the
+     next mechanism will fix it.
+
+  wrote results/exp11_verdicts.json
+  total runtime 634.2s

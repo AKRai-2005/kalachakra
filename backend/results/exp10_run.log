@@ -1,0 +1,40 @@
+==============================================================================
+KALACHAKRA  ·  Experiment 10  ·  FiLM vs concat action conditioning
+==============================================================================
+
+[1/4] Generating episodes ...
+      460 observational + 665 matched pairs
+      pair split: 465 train / 200 test
+
+[2/4] Building tensors ...
+      200 held-out pairs, true p_contain 0.31-0.75, 50.0% worked
+
+[3/4] Training both conditionings on identical data ...
+        [concat] epoch 10  pred 0.7836  rollout-stage 0.5784  vicreg 0.2013
+        [concat] epoch 20  pred 0.8499  rollout-stage 0.5160  vicreg 0.1431
+        [concat] epoch 30  pred 0.9169  rollout-stage 0.4466  vicreg 0.1048
+      [concat] done in 328s
+        [film] epoch 10  pred 0.7996  rollout-stage 0.5768  vicreg 0.2049
+        [film] epoch 20  pred 0.9122  rollout-stage 0.5328  vicreg 0.1339
+        [film] epoch 30  pred 0.9728  rollout-stage 0.4858  vicreg 0.1005
+      [film] done in 336s
+
+[4/4] Comparison on identical held-out pairs
+                mean eff   sd eff  direction  r(p_contain)        p   rank
+      concat     +0.2708   0.3110      0.905        +0.032     0.65   43.5
+      film       +0.1795   0.2622      0.900        -0.103     0.15   43.5
+
+==============================================================================
+PRE-REGISTERED PREDICTIONS
+==============================================================================
+  Z1  FAILS   FiLM r(effect, p_contain) > 0.30 (-0.103)  [THE CLAIM]
+  Z2  FAILS   FiLM beats concat on that correlation (-0.103 vs +0.032)
+  Z3  HOLDS   direction accuracy held at >= 0.75 (0.900 vs concat 0.905)
+  Z4  FAILS   FiLM effects are more spread out (sd 0.2622 vs 0.3110)
+
+  !! Z1 FAILED. FiLM did not deliver a heterogeneous effect either.
+     The constant-effect limit is not about how the action enters
+     the transition, and the write-up must say so.
+
+  wrote results/exp10_verdicts.json
+  total runtime 685.1s

@@ -1,0 +1,156 @@
+{
+ "question": "is experiment 14's '1 of 12' a property of the model or of the random seed?",
+ "protocol": "experiment 14's config and folds, re-run under six seeds; episodes, labels and features built once and shared, so only torch's RNG differs between rows",
+ "horizon": 6,
+ "train_config": {
+  "epochs": 12,
+  "lr": 0.002,
+  "w_stage": 1.0,
+  "w_vic": 0.5,
+  "batch": 16
+ },
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5
+ ],
+ "rows": [
+  {
+   "seed": 0,
+   "wm": {
+    "caught": 4,
+    "n_attack": 12,
+    "mean_lead": 8.916666666666666,
+    "fpr": 0.0784313725490196,
+    "auc": 0.2977391791634702
+   },
+   "gbdt": {
+    "caught": 7,
+    "n_attack": 12,
+    "mean_lead": 8.083333333333334,
+    "fpr": 0.08823529411764706,
+    "auc": 0.6235108133293964
+   }
+  },
+  {
+   "seed": 1,
+   "wm": {
+    "caught": 4,
+    "n_attack": 12,
+    "mean_lead": 8.916666666666666,
+    "fpr": 0.058823529411764705,
+    "auc": 0.3146865512327875
+   },
+   "gbdt": {
+    "caught": 7,
+    "n_attack": 12,
+    "mean_lead": 8.083333333333334,
+    "fpr": 0.08823529411764706,
+    "auc": 0.6235108133293964
+   }
+  },
+  {
+   "seed": 2,
+   "wm": {
+    "caught": 4,
+    "n_attack": 12,
+    "mean_lead": 8.916666666666666,
+    "fpr": 0.058823529411764705,
+    "auc": 0.38121424826489386
+   },
+   "gbdt": {
+    "caught": 7,
+    "n_attack": 12,
+    "mean_lead": 8.083333333333334,
+    "fpr": 0.08823529411764706,
+    "auc": 0.6235108133293964
+   }
+  },
+  {
+   "seed": 3,
+   "wm": {
+    "caught": 4,
+    "n_attack": 12,
+    "mean_lead": 8.916666666666666,
+    "fpr": 0.06862745098039216,
+    "auc": 0.3207590395009882
+   },
+   "gbdt": {
+    "caught": 7,
+    "n_attack": 12,
+    "mean_lead": 8.083333333333334,
+    "fpr": 0.08823529411764706,
+    "auc": 0.6235108133293964
+   }
+  },
+  {
+   "seed": 4,
+   "wm": {
+    "caught": 4,
+    "n_attack": 12,
+    "mean_lead": 8.916666666666666,
+    "fpr": 0.058823529411764705,
+    "auc": 0.3257413301306585
+   },
+   "gbdt": {
+    "caught": 7,
+    "n_attack": 12,
+    "mean_lead": 8.083333333333334,
+    "fpr": 0.08823529411764706,
+    "auc": 0.6235108133293964
+   }
+  },
+  {
+   "seed": 5,
+   "wm": {
+    "caught": 4,
+    "n_attack": 12,
+    "mean_lead": 8.916666666666666,
+    "fpr": 0.058823529411764705,
+    "auc": 0.3182294936799554
+   },
+   "gbdt": {
+    "caught": 7,
+    "n_attack": 12,
+    "mean_lead": 8.083333333333334,
+    "fpr": 0.08823529411764706,
+    "auc": 0.6235108133293964
+   }
+  }
+ ],
+ "world_model": {
+  "caught_min": 4,
+  "caught_max": 4,
+  "caught_mean": 4.0,
+  "caught_sd": 0.0,
+  "lead_min": 8.916666666666666,
+  "lead_max": 8.916666666666666,
+  "auc_min": 0.2977391791634702,
+  "auc_max": 0.38121424826489386
+ },
+ "gbdt_control": {
+  "caught": [
+   7
+  ],
+  "deterministic": true
+ },
+ "published": {
+  "exp14_wm_caught": 1,
+  "exp14_gbdt_caught": 7
+ },
+ "verdicts": {
+  "S1": false,
+  "S2": false,
+  "S3": true,
+  "S4": true
+ },
+ "detail": {
+  "S1": "world model spans 4-4 detections across 6 seeds",
+  "S2": "experiment 14's 1/12 is OUTSIDE the observed range 4-4",
+  "S3": "gradient boosting caught [7] across seeds",
+  "S4": "world model mean 4.0 vs gradient boosting 7"
+ }
+}

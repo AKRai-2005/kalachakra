@@ -1,0 +1,119 @@
+[
+ {
+  "file": "1-Neris-20110810.binetflow.csv",
+  "n_episodes": 11,
+  "n_attack": 1,
+  "onset": 77,
+  "infected": 1,
+  "rows": 2824636,
+  "windows": 368
+ },
+ {
+  "file": "2-Neris-20110811.binetflow.csv",
+  "n_episodes": 8,
+  "n_attack": 1,
+  "onset": 50,
+  "infected": 1,
+  "rows": 1808122,
+  "windows": 252
+ },
+ {
+  "file": "3-Rbot-20110812.binetflow.csv",
+  "n_episodes": 21,
+  "n_attack": 1,
+  "onset": 29,
+  "infected": 1,
+  "rows": 4710638,
+  "windows": 4010
+ },
+ {
+  "file": "4-Rbot-20110815.binetflow.csv",
+  "n_episodes": 7,
+  "n_attack": 1,
+  "onset": 17,
+  "infected": 1,
+  "rows": 1121076,
+  "windows": 269
+ },
+ {
+  "file": "5-Virut-20110815-2.binetflow.csv",
+  "n_episodes": 1,
+  "n_attack": 1,
+  "onset": 9,
+  "infected": 1,
+  "rows": 129832,
+  "windows": 31
+ },
+ {
+  "file": "6-Menti-20110816.binetflow.csv",
+  "n_episodes": 4,
+  "n_attack": 1,
+  "onset": 0,
+  "infected": 1,
+  "rows": 558919,
+  "windows": 130
+ },
+ {
+  "file": "7-Sogou-20110816-2.binetflow.csv",
+  "n_episodes": 1,
+  "n_attack": 1,
+  "onset": 1,
+  "infected": 1,
+  "rows": 114077,
+  "windows": 22
+ },
+ {
+  "file": "8-Murlo-20110816-3.binetflow.csv",
+  "n_episodes": 21,
+  "n_attack": 1,
+  "onset": 10,
+  "infected": 1,
+  "rows": 2954230,
+  "windows": 1169
+ },
+ {
+  "file": "9-Neris-20110817.binetflow.csv",
+  "n_episodes": 10,
+  "n_attack": 1,
+  "onset": 53,
+  "infected": 10,
+  "rows": 2087508,
+  "windows": 338
+ },
+ {
+  "file": "10-Rbot-20110818.binetflow.csv",
+  "n_episodes": 9,
+  "n_attack": 1,
+  "onset": 41,
+  "infected": 10,
+  "rows": 1309791,
+  "windows": 309
+ },
+ {
+  "file": "11-Rbot-20110818-2.binetflow.csv",
+  "n_episodes": 1,
+  "n_attack": 1,
+  "onset": 8,
+  "infected": 3,
+  "rows": 107251,
+  "windows": 17
+ },
+ {
+  "file": "12-NsisAy-20110819.binetflow.csv",
+  "n_episodes": 3,
+  "n_attack": 1,
+  "onset": 39,
+  "infected": 3,
+  "rows": 325471,
+  "windows": 103
+ },
+ {
+  "file": "13-Virut-20110815-3.binetflow.csv",
+  "n_episodes": 21,
+  "n_attack": 1,
+  "onset": 13,
+  "infected": 1,
+  "rows": 1925149,
+  "windows": 983
+ }
+]

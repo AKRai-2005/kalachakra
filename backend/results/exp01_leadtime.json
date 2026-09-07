@@ -1,0 +1,181 @@
+{
+  "auc": {
+    "LogisticRegression": 0.9377866063863503,
+    "GBDT": 0.9209714218263901,
+    "LSTM": 0.9677909398425727,
+    "WorldModel": 0.784024907671511
+  },
+  "window_f1": {
+    "LogisticRegression": {
+      "threshold": 0.7,
+      "f1_train": 0.6114747785906816,
+      "f1_test": 0.6060606060606061
+    },
+    "GBDT": {
+      "threshold": 0.44999999999999996,
+      "f1_train": 0.9705215419501134,
+      "f1_test": 0.5162846803377563
+    },
+    "LSTM": {
+      "threshold": 0.39999999999999997,
+      "f1_train": 0.711954459203036,
+      "f1_test": 0.7115044247787611
+    },
+    "WorldModel": {
+      "threshold": 0.2,
+      "f1_train": 0.42047753945770944,
+      "f1_test": 0.41181736794986573
+    }
+  },
+  "collapse_diagnostic": {
+    "mean_std": 0.9748561382293701,
+    "min_std": 0.8669471144676208,
+    "effective_rank": 24.649642944335938,
+    "dim": 64
+  },
+  "horizon": 6,
+  "operating_points": {
+    "LogisticRegression": {
+      "0.02": {
+        "fpr_budget": 0.02,
+        "achieved_fpr": 0.017857142857142856,
+        "mean_lead": 0.0,
+        "mean_lead_when_detected": 0.0,
+        "detection_rate": 0.0,
+        "tau": 0.999031919649294
+      },
+      "0.05": {
+        "fpr_budget": 0.05,
+        "achieved_fpr": 0.017857142857142856,
+        "mean_lead": 0.0,
+        "mean_lead_when_detected": 0.0,
+        "detection_rate": 0.0,
+        "tau": 0.999031919649294
+      },
+      "0.1": {
+        "fpr_budget": 0.1,
+        "achieved_fpr": 0.017857142857142856,
+        "mean_lead": 0.0,
+        "mean_lead_when_detected": 0.0,
+        "detection_rate": 0.0,
+        "tau": 0.999031919649294
+      },
+      "0.2": {
+        "fpr_budget": 0.2,
+        "achieved_fpr": 0.19642857142857142,
+        "mean_lead": 7.865853658536586,
+        "mean_lead_when_detected": 7.865853658536586,
+        "detection_rate": 1.0,
+        "tau": 0.7789062425416511
+      }
+    },
+    "GBDT": {
+      "0.02": {
+        "fpr_budget": 0.02,
+        "achieved_fpr": 0.017857142857142856,
+        "mean_lead": 0.7439024390243902,
+        "mean_lead_when_detected": 7.625,
+        "detection_rate": 0.0975609756097561,
+        "tau": 0.902414423286835
+      },
+      "0.05": {
+        "fpr_budget": 0.05,
+        "achieved_fpr": 0.017857142857142856,
+        "mean_lead": 0.7439024390243902,
+        "mean_lead_when_detected": 7.625,
+        "detection_rate": 0.0975609756097561,
+        "tau": 0.902414423286835
+      },
+      "0.1": {
+        "fpr_budget": 0.1,
+        "achieved_fpr": 0.08928571428571429,
+        "mean_lead": 3.475609756097561,
+        "mean_lead_when_detected": 5.7,
+        "detection_rate": 0.6097560975609756,
+        "tau": 0.7896130683022066
+      },
+      "0.2": {
+        "fpr_budget": 0.2,
+        "achieved_fpr": 0.19642857142857142,
+        "mean_lead": 6.170731707317073,
+        "mean_lead_when_detected": 6.487179487179487,
+        "detection_rate": 0.9512195121951219,
+        "tau": 0.49955244119887615
+      }
+    },
+    "LSTM": {
+      "0.02": {
+        "fpr_budget": 0.02,
+        "achieved_fpr": 0.017857142857142856,
+        "mean_lead": 0.7439024390243902,
+        "mean_lead_when_detected": 3.388888888888889,
+        "detection_rate": 0.21951219512195122,
+        "tau": 0.7220778221825161
+      },
+      "0.05": {
+        "fpr_budget": 0.05,
+        "achieved_fpr": 0.017857142857142856,
+        "mean_lead": 0.7439024390243902,
+        "mean_lead_when_detected": 3.388888888888889,
+        "detection_rate": 0.21951219512195122,
+        "tau": 0.7220778221825161
+      },
+      "0.1": {
+        "fpr_budget": 0.1,
+        "achieved_fpr": 0.08928571428571429,
+        "mean_lead": 3.3536585365853657,
+        "mean_lead_when_detected": 4.435483870967742,
+        "detection_rate": 0.7560975609756098,
+        "tau": 0.6349323828533485
+      },
+      "0.2": {
+        "fpr_budget": 0.2,
+        "achieved_fpr": 0.19642857142857142,
+        "mean_lead": 9.695121951219512,
+        "mean_lead_when_detected": 9.695121951219512,
+        "detection_rate": 1.0,
+        "tau": 0.12450909535393787
+      }
+    },
+    "WorldModel": {
+      "0.02": {
+        "fpr_budget": 0.02,
+        "achieved_fpr": 0.0,
+        "mean_lead": 2.073170731707317,
+        "mean_lead_when_detected": 3.4693877551020407,
+        "detection_rate": 0.5975609756097561,
+        "tau": 0.9830634644476034
+      },
+      "0.05": {
+        "fpr_budget": 0.05,
+        "achieved_fpr": 0.0,
+        "mean_lead": 2.073170731707317,
+        "mean_lead_when_detected": 3.4693877551020407,
+        "detection_rate": 0.5975609756097561,
+        "tau": 0.9830634644476034
+      },
+      "0.1": {
+        "fpr_budget": 0.1,
+        "achieved_fpr": 0.05357142857142857,
+        "mean_lead": 2.6951219512195124,
+        "mean_lead_when_detected": 3.8771929824561404,
+        "detection_rate": 0.6951219512195121,
+        "tau": 0.9661269288952068
+      },
+      "0.2": {
+        "fpr_budget": 0.2,
+        "achieved_fpr": 0.19642857142857142,
+        "mean_lead": 8.75609756097561,
+        "mean_lead_when_detected": 8.75609756097561,
+        "detection_rate": 1.0,
+        "tau": 0.11930015127537615
+      }
+    }
+  },
+  "verdicts": {
+    "Q1": false,
+    "Q2": false,
+    "Q3": true,
+    "Q4": true
+  }
+}

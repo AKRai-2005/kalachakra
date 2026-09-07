@@ -1,0 +1,294 @@
+{
+ "question": "does the rollout horizon - the one knob experiment 15 left untouched - explain the CTU-13 result?",
+ "horizons": [
+  2,
+  4,
+  6,
+  9,
+  12,
+  18
+ ],
+ "train_config": {
+  "epochs": 12,
+  "lr": 0.002,
+  "w_stage": 1.0,
+  "w_vic": 0.5,
+  "batch": 16
+ },
+ "no_auc_because": "the label y[c-H:c] depends on H, so AUC measures a different task in every arm; lead time and detection count read only the compromise window and are comparable across horizons",
+ "sweep": {
+  "2": {
+   "wm": {
+    "caught": 4,
+    "n_attack": 12,
+    "mean_lead": 8.916666666666666,
+    "fpr": 0.06862745098039216
+   },
+   "gbdt": {
+    "caught": 5,
+    "n_attack": 12,
+    "mean_lead": 5.583333333333333,
+    "fpr": 0.09803921568627451
+   }
+  },
+  "4": {
+   "wm": {
+    "caught": 4,
+    "n_attack": 12,
+    "mean_lead": 8.916666666666666,
+    "fpr": 0.058823529411764705
+   },
+   "gbdt": {
+    "caught": 7,
+    "n_attack": 12,
+    "mean_lead": 7.25,
+    "fpr": 0.09803921568627451
+   }
+  },
+  "6": {
+   "wm": {
+    "caught": 4,
+    "n_attack": 12,
+    "mean_lead": 8.916666666666666,
+    "fpr": 0.058823529411764705
+   },
+   "gbdt": {
+    "caught": 7,
+    "n_attack": 12,
+    "mean_lead": 8.083333333333334,
+    "fpr": 0.08823529411764706
+   }
+  },
+  "9": {
+   "wm": {
+    "caught": 3,
+    "n_attack": 12,
+    "mean_lead": 6.416666666666667,
+    "fpr": 0.049019607843137254
+   },
+   "gbdt": {
+    "caught": 9,
+    "n_attack": 12,
+    "mean_lead": 10.583333333333334,
+    "fpr": 0.09803921568627451
+   }
+  },
+  "12": {
+   "wm": {
+    "caught": 5,
+    "n_attack": 12,
+    "mean_lead": 7.166666666666667,
+    "fpr": 0.08823529411764706
+   },
+   "gbdt": {
+    "caught": 9,
+    "n_attack": 12,
+    "mean_lead": 10.666666666666666,
+    "fpr": 0.08823529411764706
+   }
+  },
+  "18": {
+   "wm": {
+    "caught": 3,
+    "n_attack": 12,
+    "mean_lead": 6.416666666666667,
+    "fpr": 0.09803921568627451
+   },
+   "gbdt": {
+    "caught": 9,
+    "n_attack": 12,
+    "mean_lead": 10.75,
+    "fpr": 0.09803921568627451
+   }
+  }
+ },
+ "pipeline_control": {
+  "gbdt_h6_matches_exp14": true,
+  "measured": {
+   "caught": 7,
+   "n_attack": 12,
+   "mean_lead": 8.083333333333334,
+   "fpr": 0.08823529411764706
+  },
+  "expected": {
+   "caught": 7,
+   "mean_lead": 8.083333333333334
+  },
+  "why": "gradient boosting is deterministic here, so this separates a real world-model difference from a broken pipeline"
+ },
+ "oracle": {
+  "wm_horizon": 12,
+  "gbdt_horizon": 18,
+  "note": "selected on the test folds - an upper bound, not a shippable result"
+ },
+ "per_fold_best_horizon": {
+  "2": 7,
+  "18": 1,
+  "9": 1
+ },
+ "nested": {
+  "caught": 5,
+  "n_attack": 12,
+  "mean_lead": 9.0,
+  "fpr": 0.06862745098039216,
+  "folds": [
+   {
+    "test": "1-Neris-20110810.binetflow",
+    "val": [
+     "2-Neris-20110811.binetflow",
+     "3-Rbot-20110812.binetflow",
+     "4-Rbot-20110815.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 5.667
+   },
+   {
+    "test": "2-Neris-20110811.binetflow",
+    "val": [
+     "3-Rbot-20110812.binetflow",
+     "4-Rbot-20110815.binetflow",
+     "5-Virut-20110815-2.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 5.667
+   },
+   {
+    "test": "3-Rbot-20110812.binetflow",
+    "val": [
+     "4-Rbot-20110815.binetflow",
+     "5-Virut-20110815-2.binetflow",
+     "6-Menti-20110816.binetflow",
+     "7-Sogou-20110816-2.binetflow",
+     "8-Murlo-20110816-3.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 3.4
+   },
+   {
+    "test": "4-Rbot-20110815.binetflow",
+    "val": [
+     "5-Virut-20110815-2.binetflow",
+     "6-Menti-20110816.binetflow",
+     "7-Sogou-20110816-2.binetflow",
+     "8-Murlo-20110816-3.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 0.0
+   },
+   {
+    "test": "5-Virut-20110815-2.binetflow",
+    "val": [
+     "6-Menti-20110816.binetflow",
+     "7-Sogou-20110816-2.binetflow",
+     "8-Murlo-20110816-3.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 0.0
+   },
+   {
+    "test": "7-Sogou-20110816-2.binetflow",
+    "val": [
+     "8-Murlo-20110816-3.binetflow",
+     "9-Neris-20110817.binetflow",
+     "10-Rbot-20110818.binetflow"
+    ],
+    "chosen_h": 9,
+    "val_lead": 20.0
+   },
+   {
+    "test": "8-Murlo-20110816-3.binetflow",
+    "val": [
+     "9-Neris-20110817.binetflow",
+     "10-Rbot-20110818.binetflow",
+     "11-Rbot-20110818-2.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 0.0
+   },
+   {
+    "test": "9-Neris-20110817.binetflow",
+    "val": [
+     "10-Rbot-20110818.binetflow",
+     "11-Rbot-20110818-2.binetflow",
+     "12-NsisAy-20110819.binetflow"
+    ],
+    "chosen_h": 6,
+    "val_lead": 20.0
+   },
+   {
+    "test": "10-Rbot-20110818.binetflow",
+    "val": [
+     "11-Rbot-20110818-2.binetflow",
+     "12-NsisAy-20110819.binetflow",
+     "13-Virut-20110815-3.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 10.0
+   },
+   {
+    "test": "11-Rbot-20110818-2.binetflow",
+    "val": [
+     "12-NsisAy-20110819.binetflow",
+     "13-Virut-20110815-3.binetflow",
+     "1-Neris-20110810.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 10.0
+   },
+   {
+    "test": "12-NsisAy-20110819.binetflow",
+    "val": [
+     "13-Virut-20110815-3.binetflow",
+     "1-Neris-20110810.binetflow",
+     "2-Neris-20110811.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 0.0
+   },
+   {
+    "test": "13-Virut-20110815-3.binetflow",
+    "val": [
+     "1-Neris-20110810.binetflow",
+     "2-Neris-20110811.binetflow",
+     "3-Rbot-20110812.binetflow"
+    ],
+    "chosen_h": 2,
+    "val_lead": 0.0
+   }
+  ],
+  "chosen_counts": {
+   "2": 10,
+   "9": 1,
+   "6": 1
+  },
+  "protocol": "horizon chosen by mean lead at FPR<=10% on rotated inner validation captures; the scored model is trained on the 12 non-test scenarios"
+ },
+ "reference": {
+  "exp14_untuned": {
+   "caught": 1,
+   "mean_lead": 2.5
+  },
+  "exp15_tuned": {
+   "caught": 1,
+   "mean_lead": 2.25
+  },
+  "exp14_gbdt": {
+   "caught": 7,
+   "mean_lead": 8.08
+  }
+ },
+ "verdicts": {
+  "H1": false,
+  "H2": false,
+  "H3": true,
+  "H4": false,
+  "H5": false
+ },
+ "detail": {
+  "H1": "H=6 reproduces 4/12 (exp 14: 1/12)",
+  "H2": "lead-vs-horizon correlation r = -0.842",
+  "H3": "oracle WM 5 (H=12) vs oracle GBDT 9 (H=18)",
+  "H4": "nested caught 5/12 vs untuned 1/12",
+  "H5": "most-common per-fold best horizon won 7 of 9 folds"
+ }
+}

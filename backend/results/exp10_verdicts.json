@@ -1,0 +1,39 @@
+{
+  "n_test_pairs": 200,
+  "n_pairs": 800,
+  "horizon": 6,
+  "ground_truth": {
+    "mean_p_contain": 0.5042688846588135,
+    "frac_worked": 0.5
+  },
+  "results": {
+    "concat": {
+      "mean_effect": 0.27082710891962053,
+      "sd_effect": 0.31100428862222207,
+      "direction_accuracy": 0.905,
+      "pearson_p_contain": 0.03187449485081461,
+      "p_value": 0.6541085665268407,
+      "spearman_p_contain": 0.029943930201668426,
+      "pearson_worked": 0.19086879008312754,
+      "effective_rank": 43.48170471191406,
+      "train_s": 318.3250992298126
+    },
+    "film": {
+      "mean_effect": 0.17950211644172667,
+      "sd_effect": 0.2622043675423944,
+      "direction_accuracy": 0.9,
+      "pearson_p_contain": -0.1029531941520998,
+      "p_value": 0.146860740950463,
+      "spearman_p_contain": -0.0971695466520897,
+      "pearson_worked": 0.11660885289430367,
+      "effective_rank": 43.46458435058594,
+      "train_s": 338.5423092842102
+    }
+  },
+  "verdicts": {
+    "Z1": false,
+    "Z2": false,
+    "Z3": true,
+    "Z4": false
+  }
+}

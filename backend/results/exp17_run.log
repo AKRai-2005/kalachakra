@@ -1,0 +1,32 @@
+==============================================================================
+KALACHAKRA  ·  Experiment 17  ·  Seed variance of the CTU-13 result
+==============================================================================
+
+      12 scored folds, horizon 6, config {'epochs': 12, 'lr': 0.002, 'w_stage': 1.0, 'w_vic': 0.5, 'batch': 16}
+      seeds: 0, 1, 2, 3, 4, 5
+      nothing varies between rows below except torch's RNG seed
+
+       seed |  WM caught    lead    FPR    AUC |  GBDT caught    lead    AUC
+          0 |      4/12     8.92  0.078  0.298 |        7/12     8.08  0.624
+          1 |      4/12     8.92  0.059  0.315 |        7/12     8.08  0.624
+          2 |      4/12     8.92  0.059  0.381 |        7/12     8.08  0.624
+          3 |      4/12     8.92  0.069  0.321 |        7/12     8.08  0.624
+          4 |      4/12     8.92  0.059  0.326 |        7/12     8.08  0.624
+          5 |      4/12     8.92  0.059  0.318 |        7/12     8.08  0.624
+
+      world model  caught 4-4 of 12  (mean 4.0, sd 0.00)
+      world model  mean lead 8.92-8.92   AUC 0.298-0.381
+      gradient boosting caught 7-7 of 12  (deterministic control)
+
+      experiment 14 published: world model 1/12, gradient boosting 7/12
+
+==============================================================================
+PRE-REGISTERED PREDICTIONS
+==============================================================================
+  S1  FAILS   world model spans 4-4 detections across 6 seeds
+  S2  FAILS   experiment 14's 1/12 is OUTSIDE the observed range 4-4
+  S3  HOLDS   gradient boosting caught [7] across seeds
+  S4  HOLDS   world model mean 4.0 vs gradient boosting 7
+
+  wrote results/exp17_verdicts.json
+  total 624s

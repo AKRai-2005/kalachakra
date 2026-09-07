@@ -1,0 +1,152 @@
+{
+ "protocol": "nested leave-one-scenario-out; config chosen on an inner validation scenario, never on the test fold",
+ "grid": {
+  "baseline": {
+   "epochs": 25,
+   "lr": 0.002,
+   "w_stage": 1.0,
+   "w_vic": 0.5,
+   "batch": 16
+  },
+  "longer": {
+   "epochs": 40,
+   "lr": 0.002,
+   "w_stage": 1.0,
+   "w_vic": 0.5,
+   "batch": 16
+  },
+  "small_batch": {
+   "epochs": 40,
+   "lr": 0.002,
+   "w_stage": 1.0,
+   "w_vic": 0.5,
+   "batch": 8
+  },
+  "stage_heavy": {
+   "epochs": 40,
+   "lr": 0.002,
+   "w_stage": 3.0,
+   "w_vic": 0.5,
+   "batch": 16
+  }
+ },
+ "not_tuned": [
+  "rollout horizon (HORIZON/ROLLOUT_DEPTH are coupled module constants; changing them inside a selection loop would compare models trained on different objectives)"
+ ],
+ "folds": [
+  {
+   "test": "1-Neris-20110810.binetflow",
+   "val": "2-Neris-20110811.binetflow",
+   "chosen": "small_batch",
+   "val_auc": 0.8455,
+   "test_auc": 0.8694
+  },
+  {
+   "test": "2-Neris-20110811.binetflow",
+   "val": "3-Rbot-20110812.binetflow",
+   "chosen": "longer",
+   "val_auc": 0.9065,
+   "test_auc": 0.837
+  },
+  {
+   "test": "3-Rbot-20110812.binetflow",
+   "val": "4-Rbot-20110815.binetflow",
+   "chosen": "stage_heavy",
+   "val_auc": 0.9112,
+   "test_auc": 0.8883
+  },
+  {
+   "test": "4-Rbot-20110815.binetflow",
+   "val": "5-Virut-20110815-2.binetflow",
+   "chosen": "longer",
+   "val_auc": 0.7353,
+   "test_auc": 0.031
+  },
+  {
+   "test": "5-Virut-20110815-2.binetflow",
+   "val": "6-Menti-20110816.binetflow",
+   "chosen": "baseline",
+   "val_auc": null,
+   "test_auc": 0.7304
+  },
+  {
+   "test": "7-Sogou-20110816-2.binetflow",
+   "val": "8-Murlo-20110816-3.binetflow",
+   "chosen": "longer",
+   "val_auc": 0.9966,
+   "test_auc": 0.0
+  },
+  {
+   "test": "8-Murlo-20110816-3.binetflow",
+   "val": "9-Neris-20110817.binetflow",
+   "chosen": "longer",
+   "val_auc": 0.8761,
+   "test_auc": 0.9962
+  },
+  {
+   "test": "9-Neris-20110817.binetflow",
+   "val": "10-Rbot-20110818.binetflow",
+   "chosen": "small_batch",
+   "val_auc": 0.9162,
+   "test_auc": 0.8951
+  },
+  {
+   "test": "10-Rbot-20110818.binetflow",
+   "val": "11-Rbot-20110818-2.binetflow",
+   "chosen": "stage_heavy",
+   "val_auc": 0.7647,
+   "test_auc": 0.7632
+  },
+  {
+   "test": "11-Rbot-20110818-2.binetflow",
+   "val": "12-NsisAy-20110819.binetflow",
+   "chosen": "small_batch",
+   "val_auc": 1.0,
+   "test_auc": 0.2647
+  },
+  {
+   "test": "12-NsisAy-20110819.binetflow",
+   "val": "13-Virut-20110815-3.binetflow",
+   "chosen": "longer",
+   "val_auc": 0.8899,
+   "test_auc": 0.9854
+  },
+  {
+   "test": "13-Virut-20110815-3.binetflow",
+   "val": "1-Neris-20110810.binetflow",
+   "chosen": "longer",
+   "val_auc": 0.8848,
+   "test_auc": 0.8611
+  }
+ ],
+ "chosen_counts": {
+  "small_batch": 3,
+  "longer": 6,
+  "stage_heavy": 2,
+  "baseline": 1
+ },
+ "tuned": {
+  "auc": 0.6768,
+  "auc_std": 0.3466,
+  "caught": 1,
+  "n_attack": 12,
+  "mean_lead": 2.25,
+  "fpr": 0.0882
+ },
+ "untuned_exp14": {
+  "auc": 0.663,
+  "caught": 1,
+  "mean_lead": 2.5
+ },
+ "gbdt_exp14": {
+  "auc": 0.624,
+  "caught": 7,
+  "mean_lead": 8.08
+ },
+ "verdicts": {
+  "T1": false,
+  "T2": true,
+  "T3": true,
+  "T4": true
+ }
+}

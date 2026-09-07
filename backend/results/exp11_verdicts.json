@@ -1,0 +1,38 @@
+{
+  "n_pairs": 800,
+  "n_test_pairs": 200,
+  "epochs": 30,
+  "pairs_per_epoch": 160,
+  "w_effect": 2.0,
+  "horizon": 6,
+  "effect_target": "realised binary outcome difference (never p_contain)",
+  "positive_rate_in_target": 0.5526881814002991,
+  "results": {
+    "control": {
+      "mean_effect": 0.1934082281589508,
+      "sd_effect": 0.28598775059992776,
+      "direction_accuracy": 0.81,
+      "pearson_p_contain": 0.008920263253669378,
+      "p_value": 0.900235908136626,
+      "spearman_p_contain": 0.001870546763669092,
+      "pearson_worked": 0.14374910367905172,
+      "train_s": 284.70419931411743
+    },
+    "effect_supervised": {
+      "mean_effect": 0.3301408660411835,
+      "sd_effect": 0.3023358321546547,
+      "direction_accuracy": 0.94,
+      "pearson_p_contain": 0.036543484798365465,
+      "p_value": 0.6074371253283855,
+      "spearman_p_contain": 0.026132913122672324,
+      "pearson_worked": 0.16883791513519208,
+      "train_s": 384.0728404521942
+    }
+  },
+  "verdicts": {
+    "AA1": false,
+    "AA2": true,
+    "AA3": true,
+    "AA4": true
+  }
+}

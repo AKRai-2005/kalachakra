@@ -1,0 +1,17 @@
+{
+  "IS_A_DIAGNOSTIC": true,
+  "WARNING": "trained on the evaluation target; not a performance claim",
+  "oracle_target_sd": 0.11888574063777924,
+  "noisy_target_sd": 0.49775171279907227,
+  "oracle_result": {
+    "mean_effect": 0.34628573775291444,
+    "sd_effect": 0.31302573169195236,
+    "direction_accuracy": 0.88,
+    "pearson_p_contain": 0.01069463674241354,
+    "p_value": 0.88052691540765,
+    "spearman_p_contain": 0.000617265663116245,
+    "pearson_worked": 0.06003867531249198,
+    "train_s": 378.6209967136383
+  },
+  "oracle_recovers_heterogeneity": false
+}

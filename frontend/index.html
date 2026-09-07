@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KALACHAKRA · intervention console</title>
+<!--
+  Self-contained on purpose: no CDN, no fonts, no fetch. The trajectories are
+  loaded by a plain script tag, so this opens straight from the filesystem
+  with no server at all.
+
+  What this shows, and why it is not a detector
+  --------------------------------------------
+  A detector scores the trajectory it observed. This asks a different question:
+  what would have happened had we acted? Every case below is a matched pair -
+  the same episode played twice from a bit-identical prefix, differing only in
+  whether the host was isolated - so the divergence between the two curves is
+  caused by the intervention and nothing else.
+
+  The honesty this console has to carry
+  -------------------------------------
+  Four experiments established that the model predicts an AVERAGE effect, not a
+  per-host one. So there is no ranking here, no "top 5 hosts to isolate", and
+  the limit is stated on screen rather than left for a judge to find. It also
+  loses to an LSTM on lead time, which is on screen too.
+
+  And the headline number is labelled for what it is. "Says isolating helps in
+  94% of cases" is not accuracy: isolation genuinely helps in every pair this
+  generator makes, so a constant always-isolate predictor scores 100%. That
+  baseline is shown next to our number because it beats it.
+-->
+<style>
+  :root{
+    --bg:#0D1017; --panel:#141926; --panel2:#1B2233; --line:#2A3348;
+    --ink:#E6EAF2; --ink2:#9AA5BC; --ink3:#6B7691;
+    --accent:#7FA0E8; --accent-dim:#22304D;
+    --risk:#E0705A; --safe:#5BBE9E; --warn:#D0A343;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:14px/1.55 "Segoe UI",system-ui,sans-serif}
+  .mono{font-family:"Cascadia Mono",Consolas,"Courier New",monospace}
+  a.skip{position:absolute;left:-9999px;background:var(--accent);color:var(--bg);
+         padding:9px 14px;z-index:50;font-weight:600}
+  a.skip:focus{left:0}
+
+  header{border-bottom:1px solid var(--line);padding:14px 20px;
+         display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+  header h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.02em}
+  header .sub{color:var(--ink3);font-size:12px}
+  .stats{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
+  .stat b{display:block;font-size:15px;font-weight:600}
+  .stat span{font-size:10.5px;color:var(--ink3);text-transform:uppercase;
+             letter-spacing:.09em}
+  .stat.good b{color:var(--safe)} .stat.bad b{color:var(--risk)}
+
+  main{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(430px,1.3fr);
+       height:calc(100vh - 62px)}
+  @media(max-width:900px){main{grid-template-columns:1fr;height:auto}}
+  .col{overflow:auto;padding:16px 20px}
+  .col+.col{border-left:1px solid var(--line)}
+  h2{font-size:11px;text-transform:uppercase;letter-spacing:.12em;
+     color:var(--ink3);margin:0 0 10px;font-weight:600}
+
+  .case{display:grid;grid-template-columns:1fr auto;gap:4px 10px;
+        padding:9px 11px;border:1px solid var(--line);border-radius:5px;
+        margin-bottom:6px;cursor:pointer;background:var(--panel);width:100%;
+        text-align:left;font:inherit;color:inherit}
+  .case:hover{border-color:var(--accent)}
+  .case.sel{border-color:var(--accent);background:var(--panel2)}
+  .case:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .case .who{font-size:12.5px;font-weight:600}
+  .case small{color:var(--ink3);font-size:11px;display:block;font-weight:400}
+  .rec{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+       padding:3px 7px;border-radius:3px;align-self:center;white-space:nowrap}
+  .rec.isolate{background:#3a2118;color:#f0a88e}
+  .rec.hold{background:#1a2a24;color:#8fd8bd}
+  .ok{color:var(--safe)} .no{color:var(--risk)}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;
+         padding:16px;margin-bottom:12px}
+  .chartwrap{overflow-x:auto}
+  svg{display:block;width:100%;height:auto;min-width:380px}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:12px;
+          color:var(--ink2)}
+  .swatch{display:inline-block;width:22px;height:0;border-top:2.5px solid;
+          vertical-align:4px;margin-right:6px}
+  .kv{display:grid;grid-template-columns:150px 1fr;gap:5px 12px;font-size:12.5px}
+  .kv dt{color:var(--ink3)} .kv dd{margin:0}
+  .ladder{display:flex;gap:3px;flex-wrap:wrap;margin-top:8px}
+  .rung{font-size:10px;padding:3px 7px;border-radius:3px;background:var(--panel2);
+        color:var(--ink3);font-family:"Cascadia Mono",Consolas,monospace}
+  .rung.hit{background:var(--accent-dim);color:var(--accent)}
+  .rung.bad{background:#3a1c17;color:#f0a88e}
+  /* Diverging bars. Node, window and host contributions share one scale
+     because integrated gradients puts them on one additive scale - a bar that
+     looks tiny next to another really is tiny. */
+  .attr{display:grid;grid-template-columns:122px 1fr 60px;gap:5px 9px;
+        align-items:center;font-size:11.5px}
+  .attr .fname{color:var(--ink2);overflow:hidden;text-overflow:ellipsis;
+               white-space:nowrap}
+  .attr .grp{grid-column:1/-1;font-size:10px;letter-spacing:.1em;
+             text-transform:uppercase;color:var(--ink3);margin:9px 0 1px}
+  .attr .grp:first-child{margin-top:0}
+  .track{position:relative;height:13px;background:var(--panel2);border-radius:2px}
+  .track::before{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;
+                 width:1px;background:var(--line)}
+  .bar{position:absolute;top:2px;bottom:2px;border-radius:2px}
+  .bar.up{background:var(--risk)} .bar.dn{background:var(--safe)}
+  .attr .val{text-align:right}
+  .attr .val.up{color:var(--risk)} .attr .val.dn{color:var(--safe)}
+  .check{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);
+         font-size:11.5px;color:var(--ink3)}
+  .check b{color:var(--safe);font-weight:600}
+
+  /* The driver line on each case row. A summary, not a verdict - the share is
+     shown precisely so one feature name cannot read as the whole story. */
+  /* `.case small` sets display:block and outranks a bare `.drv`, so this needs
+     the extra class to win - otherwise the flex gap silently does nothing and
+     the spacing falls back to collapsed HTML whitespace. */
+  .case .drv{display:flex;align-items:center;gap:6px;font-size:10.5px;
+             flex-wrap:wrap;grid-column:1/-1;margin-top:1px}
+  .drv .dim{color:var(--ink3)}
+  .dot{width:7px;height:7px;border-radius:2px;display:inline-block;flex:none}
+  .dot.up{background:var(--risk)} .dot.dn{background:var(--safe)}
+  .drv .loose{color:var(--warn)}
+  .verdict{padding:11px 13px;border-radius:5px;margin-bottom:12px;font-size:13px}
+  .verdict.hit{background:#12291f;border:1px solid var(--safe);color:var(--safe)}
+  .verdict.miss{background:#2d1713;border:1px solid var(--risk);color:var(--risk)}
+  .limit{background:#241d10;border:1px solid var(--warn);border-radius:6px;
+         padding:14px 16px;font-size:12.5px;color:var(--ink2)}
+  .limit b{color:var(--warn);display:block;margin-bottom:6px;font-size:11px;
+           text-transform:uppercase;letter-spacing:.1em}
+  .limit p{margin:0 0 7px} .limit p:last-child{margin:0}
+  .empty{color:var(--ink3);padding:24px 0}
+  .note{color:var(--ink3);font-size:11.5px;margin-top:8px}
+  @media (prefers-reduced-motion:no-preference){
+    .draw{stroke-dasharray:1000;stroke-dashoffset:1000;
+          animation:draw .6s ease forwards}
+    @keyframes draw{to{stroke-dashoffset:0}}
+  }
+  @media(max-width:700px){
+    header{padding:11px 14px;gap:9px}
+    .stats{margin-left:0;width:100%;gap:15px;flex-wrap:nowrap;overflow-x:auto;
+           scrollbar-width:none}
+    .stats::-webkit-scrollbar{display:none}
+    .stat{flex:none} .stat b{font-size:13.5px}
+    .col{padding:13px 14px}
+    .kv{grid-template-columns:106px 1fr}
+  }
+  @media (pointer:coarse){ .case{min-height:52px} }
+</style>
+</head>
+<body>
+<a class="skip" href="#cases">Skip to cases</a>
+<header>
+  <div>
+    <h1>KALACHAKRA <span style="color:var(--ink3);font-weight:400">· intervention console</span></h1>
+    <div class="sub" id="sub">loading…</div>
+  </div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main>
+  <section class="col">
+    <h2>Decision points <span class="note" id="count"></span></h2>
+    <p class="note" style="margin:-4px 0 9px">The last line on each row is that
+      case's single strongest contributing feature and the share of the
+      attribution it carries. Open a case for the full ranking — one feature is
+      rarely the whole story.</p>
+    <div id="cases" aria-label="Counterfactual decision points"></div>
+  </section>
+
+  <section class="col">
+    <h2>What happens if we act</h2>
+    <div id="detail"><div class="empty">Select a decision point to roll both futures forward.</div></div>
+    <div class="limit">
+      <b>What this cannot do</b>
+      <p id="limitPredicts"></p>
+      <p id="limitMetric"></p>
+      <p id="limitAttr"></p>
+      <p id="limitLead"></p>
+    </div>
+  </section>
+</main>
+
+<script src="data.js"></script>
+<script>
+const D = window.KALACHAKRA_DATA || null;
+let selected = null;
+
+function esc(s){
+  return String(s).replace(/[<>&"']/g, c =>
+    ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
+}
+const pct = v => (100 * v).toFixed(1) + "%";
+
+/* ------------------------------------------------------------------ chart */
+/* Hand-drawn SVG rather than a charting library: two polylines and a shaded
+   band is not worth 300KB of dependency, and the enclave has no CDN anyway. */
+function chart(c){
+  const W = 560, H = 230, L = 52, R = 16, T = 14, B = 34;
+  const n = c.risk_none.length;
+  const x = i => L + (W - L - R) * (n === 1 ? 0 : i / (n - 1));
+  const y = v => T + (H - T - B) * (1 - v);
+  const path = arr => arr.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const band = `${path(c.risk_none)} L${x(n-1).toFixed(1)},${y(c.risk_isolate[n-1]).toFixed(1)} `
+             + c.risk_isolate.map((v,i)=>`L${x(n-1-i).toFixed(1)},${y(c.risk_isolate[n-1-i]).toFixed(1)}`).join(" ") + " Z";
+
+  const grid = [0, .25, .5, .75, 1].map(v =>
+    `<line x1="${L}" y1="${y(v)}" x2="${W-R}" y2="${y(v)}" stroke="#2A3348" stroke-width="1"/>
+     <text x="${L-8}" y="${y(v)+4}" fill="#6B7691" font-size="10" text-anchor="end">${(100*v).toFixed(0)}%</text>`).join("");
+  const ticks = c.risk_none.map((_, i) =>
+    `<text x="${x(i)}" y="${H-14}" fill="#6B7691" font-size="10" text-anchor="middle">+${i+1}</text>`).join("");
+
+  return `<svg viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="Predicted compromise risk over ${n} windows. Doing nothing ends at ${pct(c.risk_none[n-1])}, isolating ends at ${pct(c.risk_isolate[n-1])}.">
+    ${grid}
+    <path d="${band}" fill="#5BBE9E" opacity=".13"/>
+    <path d="${path(c.risk_none)}" class="draw" fill="none" stroke="#E0705A" stroke-width="2.5"
+          stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="${path(c.risk_isolate)}" class="draw" fill="none" stroke="#5BBE9E" stroke-width="2.5"
+          stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${x(n-1)}" cy="${y(c.risk_none[n-1])}" r="3.5" fill="#E0705A"/>
+    <circle cx="${x(n-1)}" cy="${y(c.risk_isolate[n-1])}" r="3.5" fill="#5BBE9E"/>
+    <text x="${L}" y="${H-2}" fill="#6B7691" font-size="10">windows after the decision →</text>
+  </svg>`;
+}
+
+/* ------------------------------------------------------------ attribution */
+/* SIH26153 asks for "SHAP values or attention mechanisms identifying which
+   traffic attributes drive predictions". This model has no attention to read
+   off, and SHAP would be thousands of forward passes per explanation. What is
+   shown instead is integrated gradients, which carries the same additivity
+   axiom SHAP's efficiency property gives - and unlike SHAP we can check it,
+   so the residual is printed under every chart rather than assumed. */
+function bars(rows, max){
+  return rows.map(([k, v]) => {
+    const w = (Math.abs(v) / max * 50).toFixed(2);
+    const up = v >= 0;
+    return `<div class="fname mono" title="${esc(k)}">${esc(k)}</div>
+      <div class="track"><span class="bar ${up ? "up" : "dn"}"
+        style="${up ? "left" : "right"}:50%;width:${w}%"></span></div>
+      <div class="val mono ${up ? "up" : "dn"}">${up ? "+" : "−"}${Math.abs(v).toFixed(3)}</div>`;
+  }).join("");
+}
+
+function attrPanel(c){
+  const a = c.attribution;
+  if(!a) return "";
+  const node = a.node.slice(0, 8), glob = a.global.slice(0, 4), hosts = a.hosts.slice(0, 4);
+  const scale = Math.max(1e-9, ...a.node.concat(a.global).map(([, v]) => Math.abs(v)));
+
+  /* Recomputed in the browser from the shipped numbers rather than trusting a
+     residual the generator printed to itself. */
+  const sum = a.node.concat(a.global).reduce((s, [, v]) => s + v, 0);
+  const gap = a.risk - a.baseline_risk;
+  const resid = Math.abs(sum - gap);
+  const tight = resid < Math.max(1e-3, 0.02 * Math.abs(gap));
+
+  return `<div class="panel">
+    <h2>Which attributes drove this forecast</h2>
+    <div class="attr">
+      <div class="grp">per-host traffic attributes</div>
+      ${bars(node, scale)}
+      <div class="grp">window-level attributes</div>
+      ${bars(glob, scale)}
+      <div class="grp">strongest hosts</div>
+      ${bars(hosts, scale)}
+    </div>
+    <div class="check">
+      <span class="mono">${esc(a.method)}</span> against a
+      <span class="mono">${esc(a.baseline)}</span> baseline
+      (that reference scores ${pct(a.baseline_risk)}; this case scores ${pct(a.risk)}).
+      Contributions sum to ${(sum >= 0 ? "+" : "−")}${Math.abs(sum).toFixed(4)}
+      against a gap of ${(gap >= 0 ? "+" : "−")}${Math.abs(gap).toFixed(4)} —
+      residual <span class="mono">${resid.toExponential(1)}</span>.
+      ${tight ? "<b>Completeness holds</b>, so the ranking is the model's own arithmetic, not an approximation of it."
+              : "<b style=\"color:var(--risk)\">Completeness is loose here</b> — treat this ranking as indicative only."}
+    </div>
+    <p class="note">Red pushes risk up, green pulls it down, measured against a
+      quiet network rather than an empty one — an empty graph scores 76% on this
+      model, so zeros would have explained almost nothing. These are the
+      attributes <i>the model used</i>, not the ones that caused the attack.</p>
+  </div>`;
+}
+
+/* The strongest single contributor, for the case list. Deliberately carries its
+   share of the total: across the forty cases the top feature accounts for a
+   median 30% of the attribution mass, so a bare feature name on a row would
+   imply a single cause where there is a distribution. Clicking opens the full
+   ranking, which is the honest view. */
+function driver(c){
+  const a = c.attribution;
+  if(!a || !a.node || !a.node.length) return "";
+  const [name, v] = a.node[0];
+  const mass = a.node.concat(a.global)
+                     .reduce((s, [, x]) => s + Math.abs(x), 0) || 1;
+  const share = Math.round(100 * Math.abs(v) / mass);
+  const host = a.hosts && a.hosts.length ? a.hosts[0][0] : "";
+  return `<small class="drv">
+    <i class="dot ${v >= 0 ? "up" : "dn"}"></i>
+    <span class="mono">${esc(name)}</span>
+    <span class="dim">${v >= 0 ? "raises" : "lowers"} risk · ${share}% of signal</span>
+    ${host ? `<span class="dim">·</span><span class="mono dim">${esc(host)}</span>` : ""}
+    ${a.converged ? "" : `<span class="loose">· residual high</span>`}
+  </small>`;
+}
+
+/* --------------------------------------------------------------- rendering */
+function renderCases(){
+  const host = document.getElementById("cases");
+  host.innerHTML = D.cases.map(c => {
+    const t = c.truth;
+    const agreed = (c.effect > 0) === t.isolation_worked;
+    return `<button class="case ${selected===c.id?"sel":""}" data-id="${esc(c.id)}"
+        aria-pressed="${selected===c.id}">
+      <span class="who">${esc(c.id)}
+        <small>decision at window ${esc(c.fork)} ·
+          reached ${esc(c.observed_stages[c.observed_stages.length-1] || "—")}</small></span>
+      <span class="rec ${c.recommend}">${esc(c.recommend)}</span>
+      <small class="${agreed?"ok":"no"}" style="grid-column:1/-1">
+        ${agreed ? "✓ matched the real outcome" : "✗ did not match the real outcome"}
+      </small>
+      ${driver(c)}
+    </button>`;
+  }).join("");
+  document.getElementById("count").textContent = `${D.cases.length} held-out pairs`;
+}
+
+function renderDetail(){
+  const host = document.getElementById("detail");
+  const c = D.cases.find(x => x.id === selected);
+  if(!c){ host.innerHTML = `<div class="empty">Select a decision point to roll both futures forward.</div>`; return; }
+
+  const n = c.risk_none.length, t = c.truth;
+  const agreed = (c.effect > 0) === t.isolation_worked;
+  const ladder = c.observed_stages.map(s =>
+    `<span class="rung ${s===D.compromise_stage?"bad":(s!=="BENIGN"?"hit":"")}">${esc(s)}</span>`).join("");
+
+  host.innerHTML = `
+    <div class="verdict ${agreed?"hit":"miss"}">
+      <b>${c.effect > 0 ? "Isolating reduces risk" : "Isolating does not help here"}</b>
+      — predicted effect ${(c.effect>0?"+":"")}${pct(c.effect)} over ${n} windows.
+      ${agreed ? "This matched what actually happened." : "This did not match what actually happened."}
+    </div>
+
+    <div class="panel">
+      <h2>Two futures from one prefix</h2>
+      <div class="chartwrap">${chart(c)}</div>
+      <div class="legend">
+        <span><i class="swatch" style="border-color:#E0705A"></i>do nothing — ends at ${pct(c.risk_none[n-1])}</span>
+        <span><i class="swatch" style="border-color:#5BBE9E"></i>isolate now — ends at ${pct(c.risk_isolate[n-1])}</span>
+      </div>
+      <p class="note">Both branches share a bit-identical prefix up to window ${esc(c.fork)}.
+        Everything after it is caused by the action and nothing else — which is why
+        this is a counterfactual and not two similar episodes.</p>
+    </div>
+
+    ${attrPanel(c)}
+
+    <div class="panel">
+      <h2>What the sensor observed before the decision</h2>
+      <div class="ladder">${ladder}</div>
+    </div>
+
+    <div class="panel">
+      <h2>Ground truth — available only because we generated it</h2>
+      <dl class="kv">
+        <dt>left alone</dt><dd>${t.factual_compromised ? "compromised" : "not compromised"}</dd>
+        <dt>isolated</dt><dd>${t.counterfactual_compromised ? "compromised anyway" : "contained"}</dd>
+        <dt>isolation worked</dt><dd class="${t.isolation_worked?"ok":"no"}">${t.isolation_worked ? "yes" : "no"}</dd>
+        <dt>true containment p</dt><dd class="mono">${esc(t.p_contain)}</dd>
+      </dl>
+      <p class="note">You cannot observe the branch that did not happen in a real
+        capture. That is why counterfactual ground truth has to be constructed,
+        and why we say so rather than implying we measured it in the wild.</p>
+    </div>`;
+}
+
+document.getElementById("cases").addEventListener("click", ev => {
+  const b = ev.target.closest(".case");
+  if(!b) return;
+  selected = b.dataset.id;
+  renderCases(); renderDetail();
+  document.querySelector(`.case[data-id="${CSS.escape(selected)}"]`)?.focus();
+});
+
+/* ------------------------------------------------------------------- boot */
+if(!D){
+  document.getElementById("sub").textContent =
+    "data.js not found — run  python experiments/exp13_demo_trajectories.py  first";
+}else{
+  const h = D.headline;
+  document.getElementById("sub").textContent =
+    `${D.cases.length} held-out counterfactual pairs · ${D.horizon}-window rollout · `
+    + `generated ${D.generated}`;
+
+  /* The label matters more than the number here. This is the share of cases
+     where the model says isolating helps - not accuracy - and the trivial
+     always-isolate baseline is shown beside it precisely because it beats us. */
+  document.getElementById("stats").innerHTML = [
+    ["good", (100*h.says_helps).toFixed(0) + "%", "says isolating helps"],
+    ["bad", (100*h.lstm_says_helps).toFixed(0) + "%", "action-aware LSTM"],
+    ["", (100*h.trivial_baseline).toFixed(0) + "%", "trivial always-isolate"],
+    ["", (h.r_effect_vs_p_contain >= 0 ? "+" : "") + h.r_effect_vs_p_contain.toFixed(3),
+     "r vs true p(contain)"],
+  ].map(([cls, v, k]) =>
+    `<div class="stat ${cls}"><b>${esc(v)}</b><span>${esc(k)}</span></div>`).join("");
+
+  const inl = 'style="display:inline;text-transform:none;letter-spacing:0"';
+  document.getElementById("limitPredicts").innerHTML =
+    `It predicts <b ${inl}>${esc(D.limits.predicts)}</b>. It does <b ${inl}>not</b> `
+    + `predict ${esc(D.limits.does_not_predict)} — ${esc(D.limits.evidence)}. `
+    + `That is why this console has no ranked list.`;
+  document.getElementById("limitMetric").textContent = D.limits.metric_caveat || "";
+  document.getElementById("limitAttr").textContent = D.limits.attribution || "";
+  document.getElementById("limitLead").textContent = D.limits.lead_time;
+
+  renderCases();
+}
+</script>
+</body>
+</html>

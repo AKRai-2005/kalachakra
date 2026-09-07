@@ -1,0 +1,46 @@
+==============================================================================
+KALACHAKRA  ·  Experiment 18  ·  Training length on CTU-13
+==============================================================================
+
+      12 scored folds, horizon 6
+      epochs: 6, 12, 18, 25, 40
+      seeds:  0, 1
+      everything except the epoch count is experiment 14's setup
+
+      control: gradient boosting 7/12 caught, lead 8.08, AUC 0.624 -> PASS
+
+      epochs  seed |   caught    lead    FPR    AUC
+           6     0 |    1/12     2.50  0.039  0.442
+           6     1 |    2/12     5.00  0.029  0.481
+          12     0 |    4/12     8.92  0.078  0.298
+          12     1 |    4/12     8.92  0.059  0.315
+          18     0 |    4/12     8.92  0.059  0.314
+          18     1 |    4/12     8.92  0.059  0.345
+          25     0 |    4/12     8.92  0.098  0.513
+          25     1 |    0/12     0.00  0.000  0.544
+          40     0 |    1/12     2.25  0.098  0.800
+          40     1 |    1/12     2.25  0.088  0.581
+
+      epochs   caught    lead    AUC   (mean over seeds)
+           6      1.5    3.75  0.461
+          12      4.0    8.92  0.306
+          18      4.0    8.92  0.330
+          25      2.0    4.46  0.529
+          40      1.0    2.25  0.690
+
+      epochs vs detections   r = -0.451
+      epochs vs AUC          r = +0.780
+      best epoch count       12 (4.0 of 12 caught)
+      reproduces exp 14 row  40ep/seed1 (AUC 0.581)
+
+==============================================================================
+PRE-REGISTERED PREDICTIONS
+==============================================================================
+  P1  HOLDS   reproduced at 40 epochs
+  P2  HOLDS   epochs vs detections r = -0.451 (1.5 at 6 -> 1.0 at 40)
+  P3  HOLDS   epochs vs AUC r = +0.780 (0.461 -> 0.690)
+  P4  HOLDS   best world model 4.0 vs gradient boosting 7
+  P5  HOLDS   best epoch count 12; experiment 15's grid started at 25
+
+  wrote results/exp18_verdicts.json
+  total 1775s
