@@ -226,8 +226,8 @@ this result.
 **This is the first KALACHAKRA number that is not measured on our own
 generator.** Everything before it ran on `episodes.py`: we invent the dynamics,
 then show a model of the dynamics learns them. Experiment 01 refuted the
-lead-time claim there — a tuned LSTM won 3.35 windows of warning to the world
-model's 0.26 — but that refutation had never been checked against an intrusion
+lead-time claim there — a tuned LSTM won 3.30 windows of warning to the world
+model's 2.70 — but that refutation had never been checked against an intrusion
 nobody wrote for us, so it could in principle have been an artefact.
 
 CTU-13 is thirteen captures of real botnet traffic (Stratosphere Lab, CTU
@@ -266,7 +266,7 @@ catches 7; logistic regression still wins AUC and F1.**
 
 We predicted real lead times would be **shorter** than synthetic, on the
 argument that real botnet onsets are abrupt where our generator ramps. They are
-**longer**: 8.67 against 3.35. Real infected hosts are evidently doing
+**longer**: 8.67 against 3.30. Real infected hosts are evidently doing
 recognisable things well before the first flow CTU-13 labels as botnet, so there
 is *more* warning available in real traffic than our generator offers, not less.
 That is worth more than the prediction would have been if it had held — it says
@@ -422,15 +422,15 @@ would flatter every model equally and mean nothing.
 | method | AUC | F1 train | F1 test |
 |---|---|---|---|
 | **LogisticRegression** *(the floor)* | 0.938 | 0.611 | **0.606** |
-| GBDT | 0.921 | 0.971 | 0.516 |
-| LSTM | **0.968** | 0.712 | **0.712** |
+| GBDT | 0.926 | 0.971 | 0.478 |
+| LSTM | **0.970** | 0.711 | **0.704** |
 | **WorldModel** | 0.784 | 0.421 | **0.412** |
 
 ### The world model loses to logistic regression
 
 On window-level detection it scores **0.412 F1 against the floor's 0.606**, and
 0.784 AUC against 0.938. This is the second benchmark it loses - it already lost
-lead time to a tuned LSTM (0.26 vs 3.35 windows of warning).
+lead time to a tuned LSTM (2.70 vs 3.30 windows of warning).
 
 The defence, such as it is: the world model is a forward simulator scored by
 rollout risk over a K-step horizon, not a window classifier, and it is being
@@ -637,22 +637,39 @@ objective rather than the model.
 
 | Method | FPR ≤ 2% | FPR ≤ 5% | FPR ≤ 10% | FPR ≤ 20% | window AUC |
 |---|---|---|---|---|---|
-| GBDT (per-window, no history) | 0.74 (10%) | 0.74 (10%) | 3.48 (61%) | 6.17 (95%) | 0.921 |
-| **LSTM (same history)** | **0.74 (22%)** | **0.74 (22%)** | **3.35 (76%)** | **9.70 (100%)** | **0.968** |
-| World model (rollout) | 0.26 (12%) | 0.26 (12%) | 0.26 (12%) | 9.61 (100%) | 0.789 |
+| GBDT (per-window, no history) | 0.54 (7%) | 1.16 (18%) | 3.54 (63%) | 6.72 (98%) | 0.926 |
+| **LSTM (same history)** | **1.06 (24%)** | **2.09 (50%)** | **3.30 (74%)** | **11.23 (100%)** | **0.970** |
+| World model (rollout) | 2.07 (60%) | 2.07 (60%) | 2.70 (70%) | 8.76 (100%) | 0.784 |
 
 *Mean lead in windows; (detection rate before compromise).*
 
 | Prediction | Verdict |
 |---|---|
-| Q1 — all beat chance, GBDT worst | **FAILS** — GBDT beats the world model at tight FPR |
-| Q2 — WM ≥ LSTM at FPR ≤ 10% *(the claim)* | **FAILS** — 0.26 vs 3.35 |
-| Q3 — latent does not collapse | HOLDS — effective rank 27.1 of 64 |
-| Q4 — WM advantage grows at lower FPR | **FAILS** — the opposite happens |
+| Q1 — all beat chance, GBDT worst | **FAILS** — GBDT is not the worst: at FPR ≤ 10% it leads everything (3.54 windows) |
+| Q2 — WM ≥ LSTM at FPR ≤ 10% *(the claim)* | **FAILS** — 2.70 vs 3.30 |
+| Q3 — latent does not collapse | HOLDS — effective rank 24.6 of 64 |
+| Q4 — WM advantage grows at lower FPR | HOLDS — the gap to the LSTM is +1.01 windows at 2% and -2.48 at 20% |
 
 **A well-tuned LSTM over the same features beats the world model on lead time.**
-The world model reaches parity only at a 20% false-alarm budget (9.61 vs 9.70),
-which is far too loose to be operationally useful.
+The world model leads at a tight 2% budget (2.07 (60%) against 1.06 (24%)) and loses from 10% onwards, where an operator would
+actually sit (2.70 (70%) against 3.30 (74%)).
+
+> **Corrected 3 Oct 2026.** This table previously read 0.26 (12%) for the world
+> model at every budget up to 10%, and marked Q4 as failing. Those figures came
+> from a run that predates the two model fixes recorded below, and they were
+> never refreshed; `results/exp01_leadtime.json` has disagreed with them for
+> some time. Re-running the experiment reproduces the numbers above. The
+> headline verdict is unchanged - Q2 still fails, the LSTM still wins - and the
+> error ran against us: the world model was less bad than we published.
+>
+> The re-run also exposed something worse than a stale number. Two runs on the
+> same machine with the same seeds disagreed: the LSTM's lead at FPR ≤ 10%
+> moved 3.35 → 4.71 and flipped Q1's verdict. `nn.LSTM`'s fused CPU kernel and
+> XGBoost both reduce floats in thread order, so the thread count the machine
+> happens to give decides the result. The experiment now pins itself to one
+> thread (`torch.set_num_threads(1)`, `n_jobs=1`), and four consecutive runs
+> agree to the digit. A pre-registered verdict that changes when you re-run it
+> is not a verdict.
 
 ### Two implementation bugs were found and fixed along the way
 

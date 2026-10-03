@@ -1,8 +1,8 @@
 {
   "auc": {
     "LogisticRegression": 0.9377866063863503,
-    "GBDT": 0.9209714218263901,
-    "LSTM": 0.9677909398425727,
+    "GBDT": 0.9260333191040742,
+    "LSTM": 0.9700991520655063,
     "WorldModel": 0.784024907671511
   },
   "window_f1": {
@@ -12,14 +12,14 @@
       "f1_test": 0.6060606060606061
     },
     "GBDT": {
-      "threshold": 0.44999999999999996,
-      "f1_train": 0.9705215419501134,
-      "f1_test": 0.5162846803377563
+      "threshold": 0.49999999999999994,
+      "f1_train": 0.971375807940905,
+      "f1_test": 0.47848101265822784
     },
     "LSTM": {
-      "threshold": 0.39999999999999997,
-      "f1_train": 0.711954459203036,
-      "f1_test": 0.7115044247787611
+      "threshold": 0.5499999999999999,
+      "f1_train": 0.7112299465240641,
+      "f1_test": 0.7036705461056401
     },
     "WorldModel": {
       "threshold": 0.2,
@@ -72,69 +72,69 @@
     "GBDT": {
       "0.02": {
         "fpr_budget": 0.02,
-        "achieved_fpr": 0.017857142857142856,
-        "mean_lead": 0.7439024390243902,
-        "mean_lead_when_detected": 7.625,
-        "detection_rate": 0.0975609756097561,
-        "tau": 0.902414423286835
+        "achieved_fpr": 0.0,
+        "mean_lead": 0.5365853658536586,
+        "mean_lead_when_detected": 7.333333333333333,
+        "detection_rate": 0.07317073170731707,
+        "tau": 0.907070050896082
       },
       "0.05": {
         "fpr_budget": 0.05,
-        "achieved_fpr": 0.017857142857142856,
-        "mean_lead": 0.7439024390243902,
-        "mean_lead_when_detected": 7.625,
-        "detection_rate": 0.0975609756097561,
-        "tau": 0.902414423286835
+        "achieved_fpr": 0.03571428571428571,
+        "mean_lead": 1.1585365853658536,
+        "mean_lead_when_detected": 6.333333333333333,
+        "detection_rate": 0.18292682926829268,
+        "tau": 0.8746748537833056
       },
       "0.1": {
         "fpr_budget": 0.1,
         "achieved_fpr": 0.08928571428571429,
-        "mean_lead": 3.475609756097561,
-        "mean_lead_when_detected": 5.7,
-        "detection_rate": 0.6097560975609756,
-        "tau": 0.7896130683022066
+        "mean_lead": 3.5365853658536586,
+        "mean_lead_when_detected": 5.576923076923077,
+        "detection_rate": 0.6341463414634146,
+        "tau": 0.7936868610013643
       },
       "0.2": {
         "fpr_budget": 0.2,
         "achieved_fpr": 0.19642857142857142,
-        "mean_lead": 6.170731707317073,
-        "mean_lead_when_detected": 6.487179487179487,
-        "detection_rate": 0.9512195121951219,
-        "tau": 0.49955244119887615
+        "mean_lead": 6.719512195121951,
+        "mean_lead_when_detected": 6.8875,
+        "detection_rate": 0.975609756097561,
+        "tau": 0.38874689709165855
       }
     },
     "LSTM": {
       "0.02": {
         "fpr_budget": 0.02,
         "achieved_fpr": 0.017857142857142856,
-        "mean_lead": 0.7439024390243902,
-        "mean_lead_when_detected": 3.388888888888889,
-        "detection_rate": 0.21951219512195122,
-        "tau": 0.7220778221825161
+        "mean_lead": 1.0609756097560976,
+        "mean_lead_when_detected": 4.35,
+        "detection_rate": 0.24390243902439024,
+        "tau": 0.869109660890907
       },
       "0.05": {
         "fpr_budget": 0.05,
-        "achieved_fpr": 0.017857142857142856,
-        "mean_lead": 0.7439024390243902,
-        "mean_lead_when_detected": 3.388888888888889,
-        "detection_rate": 0.21951219512195122,
-        "tau": 0.7220778221825161
+        "achieved_fpr": 0.03571428571428571,
+        "mean_lead": 2.0853658536585367,
+        "mean_lead_when_detected": 4.170731707317073,
+        "detection_rate": 0.5,
+        "tau": 0.8541250835005639
       },
       "0.1": {
         "fpr_budget": 0.1,
-        "achieved_fpr": 0.08928571428571429,
-        "mean_lead": 3.3536585365853657,
-        "mean_lead_when_detected": 4.435483870967742,
-        "detection_rate": 0.7560975609756098,
-        "tau": 0.6349323828533485
+        "achieved_fpr": 0.07142857142857142,
+        "mean_lead": 3.3048780487804876,
+        "mean_lead_when_detected": 4.442622950819672,
+        "detection_rate": 0.7439024390243902,
+        "tau": 0.8241559287198779
       },
       "0.2": {
         "fpr_budget": 0.2,
         "achieved_fpr": 0.19642857142857142,
-        "mean_lead": 9.695121951219512,
-        "mean_lead_when_detected": 9.695121951219512,
+        "mean_lead": 11.231707317073171,
+        "mean_lead_when_detected": 11.231707317073171,
         "detection_rate": 1.0,
-        "tau": 0.12450909535393787
+        "tau": 0.16483452354478392
       }
     },
     "WorldModel": {

@@ -45,7 +45,7 @@ The last two rows are the entire pitch. They are things a classifier is structur
 
 Every other team will report accuracy. Lead time is what a defender actually buys, and it produces a curve nobody else will have: **lead-time vs false-alarm-rate**, swept over the alerting threshold, against a sequence-classifier baseline on identical data and splits.
 
-We built exactly that. The baseline wins: **LSTM 3.35 windows vs world model 0.26 at FPR ≤ 10%.** Two model bugs and two experiment-design errors were found and fixed on the way to that number; it is the corrected one.
+We built exactly that. The baseline wins: **LSTM 3.30 windows vs world model 2.70 at FPR ≤ 10%.** Two model bugs and two experiment-design errors were found and fixed on the way to that number; it is the corrected one.
 
 ### Claim 2 — Counterfactual intervention · **the surviving differentiator, untested**
 Because the model learns dynamics, we can condition on an action:

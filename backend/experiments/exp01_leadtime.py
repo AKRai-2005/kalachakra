@@ -77,6 +77,14 @@ RESULTS = ROOT / "results"
 RESULTS.mkdir(exist_ok=True)
 torch.manual_seed(0)
 np.random.seed(0)
+# Seeds alone do not make this experiment reproducible. Thread count does:
+# nn.LSTM's fused CPU kernel and XGBoost both reduce floats in thread order, so
+# a run on a busy machine draws a different number of threads and lands on
+# different results. Measured 3 Oct 2026: with threads free, the LSTM's lead at
+# FPR <= 10% moved 3.35 -> 4.71 between two runs and flipped prediction Q1's
+# verdict; pinned to one thread, two runs agree to the digit. A pre-registered
+# verdict that changes when you re-run is worth more than the seconds this costs.
+torch.set_num_threads(1)
 
 HORIZON = 6          # rollout steps at inference; ~6 windows of useful warning
 ROLLOUT_DEPTH = 6    # rollout steps during training - must match HORIZON, or the
@@ -277,7 +285,8 @@ def main() -> None:
     print("\n[4/6] Baseline 1: per-window GBDT (no history) ...")
     gb = XGBClassifier(n_estimators=300, max_depth=5, learning_rate=0.1,
                        subsample=0.9, colsample_bytree=0.9, tree_method="hist",
-                       eval_metric="logloss", n_jobs=4, random_state=0)
+                       eval_metric="logloss", n_jobs=1, random_state=0)   # n_jobs=1: see the
+                       # threading note beside the seeds
     gb.fit(Ftr.reshape(-1, Ftr.shape[-1]), Ytr.reshape(-1))
     p_gb = gb.predict_proba(Fte.reshape(-1, Fte.shape[-1]))[:, 1].reshape(Fte.shape[:2])
     auc_gb = roc_auc_score(yte_flat, p_gb.reshape(-1))

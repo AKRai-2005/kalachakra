@@ -345,8 +345,8 @@ that is the distinction the problem statement asks for."
 ### Q28. Your world model loses on lead time. Why show it?
 
 **Say:** "Because an evaluator who runs the repository finds it in one command.
-A tuned LSTM gives 3.35 windows of warning at 76% detection; the world model
-gives 0.26 at 12%. We report the curve. The capability that survives is a
+A tuned LSTM gives 3.30 windows of warning at 74% detection; the world model
+gives 2.70 at 70%. We report the curve. The capability that survives is a
 different one — answering what happens if we intervene, which no detector can
 answer at all."
 
@@ -553,7 +553,7 @@ Prague, 19.9 million flows**, leave-one-scenario-out so every test episode is a
 network and a malware family the model never saw."
 
 **Lead with the loss.** "Our lead-time claim was already refuted on synthetic
-data — a tuned LSTM beat us 3.35 to 0.26 windows. **The refutation replicates on
+data — a tuned LSTM beat us 3.30 to 2.70 windows. **The refutation replicates on
 real data.** The world model catches **5 of 12** real infections at under 10%
 false alarms. Gradient boosting catches **7 to 9**. Logistic regression still
 wins AUC and F1. So the synthetic result was not an artefact of our own
@@ -566,7 +566,7 @@ against our own interest."
 
 **Volunteer the prediction we got wrong.** "We predicted real lead times would
 be *shorter* than synthetic, reasoning that real onsets are abrupt where our
-generator ramps. They are **longer** — 8.67 against 3.35 windows. We were wrong
+generator ramps. They are **longer** — 8.67 against 3.30 windows. We were wrong
 about the direction, and the useful consequence is that our generator is
 pessimistic about the very quantity it was built to study."
 
@@ -785,7 +785,7 @@ not a list:
 | Evidence chain | 90,790 entries, verified in-browser and server-side |
 | Low-rate attacks | host-window-alone 0.599 → 0.28 macro-F1; one-way tap result holds |
 | KALACHAKRA counterfactual | says "isolate helps" in 94% of pairs vs 48% for an action-aware LSTM — but always-isolate scores 100% |
-| KALACHAKRA lead time | LSTM 3.35 windows, world model 0.26 — we lose |
+| KALACHAKRA lead time | LSTM 3.30 windows, world model 2.70 — we lose |
 | KALACHAKRA on CTU-13 | world model 5 of 12, GBDT 7-9 of 12 — corrected upward from our own published 1 of 12 |
 | Pre-registered predictions | 82 total, 33 refuted |
 | Tests | 288 (EKAGRA) + 100 (KALACHAKRA) = 388 |

@@ -37,7 +37,7 @@ G_t -> GNN encoder -> (z_t, action) -> transition model -> K-step rollout
 
 | Claim | Status |
 |---|---|
-| Lead time: a world model warns earlier than a classifier | **REFUTED** on generated data (a tuned LSTM won 3.35 windows to 0.26) and again on real botnet captures |
+| Lead time: a world model warns earlier than a classifier | **REFUTED** on generated data (a tuned LSTM won 3.30 windows to 2.70) and again on real botnet captures |
 | Counterfactual: it can tell you whether isolating helps | **HOLDS, NARROWLY** — see the caveat below |
 | It can tell you *which* interventions work | **REFUTED after four attempts** (r = −0.105, −0.103, +0.037, +0.011) |
 
