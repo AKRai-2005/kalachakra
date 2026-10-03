@@ -662,14 +662,36 @@ actually sit (2.70 (70%) against 3.30 (74%)).
 > headline verdict is unchanged - Q2 still fails, the LSTM still wins - and the
 > error ran against us: the world model was less bad than we published.
 >
-> The re-run also exposed something worse than a stale number. Two runs on the
-> same machine with the same seeds disagreed: the LSTM's lead at FPR ≤ 10%
-> moved 3.35 → 4.71 and flipped Q1's verdict. `nn.LSTM`'s fused CPU kernel and
-> XGBoost both reduce floats in thread order, so the thread count the machine
-> happens to give decides the result. The experiment now pins itself to one
-> thread (`torch.set_num_threads(1)`, `n_jobs=1`), and four consecutive runs
-> agree to the digit. A pre-registered verdict that changes when you re-run it
-> is not a verdict.
+> **The re-run also exposed something worse than a stale number, and the first
+> account of it in this file was wrong.** It read: two runs on the same machine
+> with the same seeds disagreed. They do not. Two unpinned runs agree exactly,
+> and so do two pinned runs; this experiment is stable run to run. What was
+> actually compared was the *committed* result against a fresh run, which is a
+> different claim, and it was corrected the same day it was written.
+>
+> What the evidence does show is that the result depends on **thread count**,
+> which makes it a property of the machine rather than of the code:
+>
+> | threads | LSTM lead at FPR ≤ 10% | Q1 |
+> |---|---|---|
+> | torch default (6 here) | 4.71 (93%) | HOLDS |
+> | pinned to 1 | 3.30 (74%) | FAILS |
+> | whatever produced the published figures | 3.35 (76%) | FAILS |
+>
+> `nn.LSTM`'s fused CPU kernel and XGBoost reduce floats in thread order, so a
+> machine with a different core count gets a different answer - and **Q1's
+> verdict turns on it**. The published figures match neither configuration
+> here, and no results payload records the library versions or the thread count
+> used, so the gap cannot be attributed retrospectively: a torch upgrade and a
+> different machine are both consistent with it. That is the real lesson, and
+> it is the same one experiment 14 taught when it failed to record its epoch
+> count - a knob you do not record is a number you cannot regenerate.
+>
+> The experiment now pins itself to one thread (`torch.set_num_threads(1)`,
+> `n_jobs=1`) so that what it prints is a property of the code. Every figure in
+> the tables above is the pinned configuration. **Q1 should be read as
+> thread-dependent rather than settled**; Q2, the claim this project is named
+> for, fails in every configuration tested.
 
 ### Two implementation bugs were found and fixed along the way
 
