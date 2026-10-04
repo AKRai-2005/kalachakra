@@ -276,7 +276,9 @@ def build() -> None:
         ("CTU-13 botnet captures, Stratosphere Lab, CTU Prague (Garcia et al., 2014). CERT-In / PIB: 29.44 lakh incidents handled in 2025, up 85% on 2023.", "b"),
         ("Our work", "h"),
         ("Repository with all experiments, pre-registered predictions and printed "
-         "verdicts, and one-command reproduction: [REPO URL]", "b"),
+         "verdicts, and one-command reproduction:", "b",
+         ("github.com/AKRai-2005/kalachakra",
+          "https://github.com/AKRai-2005/kalachakra")),
     ], accent=ACCENT, size=11, gap=3.5,
         left=0.67, top=1.28, width=12.0, height=5.45)
 
