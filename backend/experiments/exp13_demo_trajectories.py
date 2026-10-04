@@ -312,9 +312,11 @@ def main() -> None:
                            "correlate faithfully - true of SHAP too. Read them "
                            "as what the model used, never as what caused the "
                            "attack.",
-            "lead_time": "on lead time this model LOSES to a tuned LSTM: 0.26 vs "
-                         "3.35 windows of warning. The interventional question is "
-                         "the one it answers better, not detection.",
+            "lead_time": "on lead time this model LOSES to a tuned LSTM: 2.70 vs "
+                         "3.30 windows of warning, and on CTU-13 it catches 5 of "
+                         "12 real infections where gradient boosting catches 7 "
+                         "to 9. The interventional question is the one it "
+                         "answers better, not detection.",
         },
         "cases": cases,
     }

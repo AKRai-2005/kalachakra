@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-05 15:39:15",
+ "generated": "2026-10-04 11:46:45",
  "horizon": 6,
  "stages": [
   "BENIGN",
@@ -25,7 +25,7 @@
   "evidence": "four experiments (exp02, 10, 11, 12) failed to produce a per-host effect; an oracle trained on the target itself still gave r = +0.011, so the limit is structural",
   "metric_caveat": "The headline is the fraction of cases where the model predicts isolating helps - not accuracy. Isolation genuinely helps in every pair this generator makes, so a constant always-isolate predictor scores 100%. The number is evidence that the action-aware LSTM failed to learn the effect at all, not that our model ranks cases.",
   "attribution": "Attributions explain this model's function, not the network. If the model has learned a spurious correlate, attribution reports the spurious correlate faithfully - true of SHAP too. Read them as what the model used, never as what caused the attack.",
-  "lead_time": "on lead time this model LOSES to a tuned LSTM: 0.26 vs 3.35 windows of warning. The interventional question is the one it answers better, not detection."
+  "lead_time": "on lead time this model LOSES to a tuned LSTM: 2.70 vs 3.30 windows of warning, and on CTU-13 it catches 5 of 12 real infections where gradient boosting catches 7 to 9. The interventional question is the one it answers better, not detection."
  },
  "cases": [
   {
@@ -194,7 +194,7 @@
       0.02896
      ]
     ],
-    "completeness_error": 0.005657,
+    "completeness_error": 0.005658,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -614,7 +614,7 @@
      ],
      [
       "in_bytes_int",
-      -0.10003
+      -0.10002
      ],
      [
       "in_pkts_ext",
@@ -886,7 +886,7 @@
       0.0608
      ]
     ],
-    "completeness_error": 0.008378,
+    "completeness_error": 0.008377,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -1036,7 +1036,7 @@
     "hosts": [
      [
       "10.20.30.29",
-      0.51289
+      0.5129
      ],
      [
       "10.20.30.10",
@@ -1059,7 +1059,7 @@
       0.04394
      ]
     ],
-    "completeness_error": 0.000623,
+    "completeness_error": 0.000622,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -1232,7 +1232,7 @@
       0.03495
      ]
     ],
-    "completeness_error": 0.000382,
+    "completeness_error": 0.000383,
     "steps": 64,
     "converged": true,
     "method": "integrated_gradients",
@@ -2097,7 +2097,7 @@
       -0.08592
      ]
     ],
-    "completeness_error": 0.00262,
+    "completeness_error": 0.002621,
     "steps": 64,
     "converged": true,
     "method": "integrated_gradients",
@@ -2270,7 +2270,7 @@
       0.01958
      ]
     ],
-    "completeness_error": 0.01336,
+    "completeness_error": 0.013361,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -2766,7 +2766,7 @@
     "hosts": [
      [
       "10.20.30.22",
-      0.53481
+      0.53482
      ],
      [
       "10.20.30.20",
@@ -2960,7 +2960,7 @@
       0.16057
      ]
     ],
-    "completeness_error": 0.001689,
+    "completeness_error": 0.00169,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -3306,7 +3306,7 @@
       0.03165
      ]
     ],
-    "completeness_error": 0.009715,
+    "completeness_error": 0.009714,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -3468,7 +3468,7 @@
      ],
      [
       "10.20.30.30",
-      0.08851
+      0.0885
      ],
      [
       "10.20.30.23",
@@ -3652,7 +3652,7 @@
       -0.12152
      ]
     ],
-    "completeness_error": 0.000869,
+    "completeness_error": 0.000868,
     "steps": 256,
     "converged": true,
     "method": "integrated_gradients",
@@ -3825,7 +3825,7 @@
       0.04238
      ]
     ],
-    "completeness_error": 0.000133,
+    "completeness_error": 0.000132,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -4344,7 +4344,7 @@
       -0.03404
      ]
     ],
-    "completeness_error": 0.003614,
+    "completeness_error": 0.003615,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -4517,7 +4517,7 @@
       0.05301
      ]
     ],
-    "completeness_error": 0.011242,
+    "completeness_error": 0.011243,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -5036,7 +5036,7 @@
       -0.02912
      ]
     ],
-    "completeness_error": 0.00765,
+    "completeness_error": 0.007649,
     "steps": 32,
     "converged": true,
     "method": "integrated_gradients",
@@ -6243,7 +6243,7 @@
       -0.07665
      ]
     ],
-    "completeness_error": 0.000182,
+    "completeness_error": 0.000181,
     "steps": 128,
     "converged": true,
     "method": "integrated_gradients",
@@ -6413,7 +6413,7 @@
      ],
      [
       "10.20.30.30",
-      0.08266
+      0.08265
      ]
     ],
     "completeness_error": 0.002663,
@@ -6589,7 +6589,7 @@
       -0.04793
      ]
     ],
-    "completeness_error": 2.6e-05,
+    "completeness_error": 2.5e-05,
     "steps": 128,
     "converged": true,
     "method": "integrated_gradients",
@@ -6942,5 +6942,27 @@
     "baseline": "quiet-reference"
    }
   }
- ]
+ ],
+ "environment": {
+  "recorded_at": "2026-10-04T06:16:45Z",
+  "python": "3.12.10",
+  "platform": "Windows 11 (AMD64)",
+  "versions": {
+   "numpy": "2.5.2",
+   "scipy": "1.16.3",
+   "torch": "2.14.1+cpu"
+  },
+  "threads": {
+   "cpu_count": 12,
+   "torch_num_threads": 6,
+   "torch_interop_threads": 6,
+   "OMP_NUM_THREADS": null,
+   "MKL_NUM_THREADS": null,
+   "OPENBLAS_NUM_THREADS": null
+  },
+  "git": {
+   "commit": "e013f46",
+   "dirty": true
+  }
+ }
 }
