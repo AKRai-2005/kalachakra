@@ -9,13 +9,6 @@ is more interesting than the one that did not.
 The surviving claim: a world model answers an *interventional* question that a
 discriminative model cannot, and we measured the gap against a fair baseline -
 an action-aware LSTM that receives the action as an input feature.
-
-The PowerPoint files are deliberately not in this repository - neither the
-deck this script builds nor the official template it builds from. The deck
-is submitted through the SIH portal, and the template is SIH's document to
-distribute, not ours. To rebuild: download the official SIH 2026 idea
-template, save it beside this script as SIH2026-template.pptx, and run this
-file. Everything the deck asserts is reproducible from the experiments here.
 """
 
 from __future__ import annotations
@@ -262,31 +255,65 @@ def build() -> None:
         add_label(s5, cx + 0.22, cy + 0.50, 5.4, 0.98, t, size=10, color=INK)
 
     # ---------------------------------------------------------------- slide 6
+    # Every reference carries its address as a hyperlink AND as printed text.
+    # A hyperlink survives PDF export but not printing; the printed address
+    # survives both, and a reader on a different machine needs one of the two.
+    # All URLs checked to resolve on 4 Oct 2026.
     set_body(by_name(s6, "TextBox"), [
         ("Problem statement", "h"),
         ("SIH26153 (NTRO) asks for world-model systems that “learn state-transition "
          "dynamics”, “forecast future network states” and map behaviour to "
          "recognised attack stages. This deck answers that brief directly.", "b"),
+
         ("Prior art in attack forecasting", "h"),
-        ("Husak et al. - Predictive methods in cyber defense: current experience and "
-         "research challenges. Future Generation Computer Systems.", "b"),
-        ("Abdlhamed et al. - Cyber-attack prediction based on network intrusion detection "
-         "systems for alert correlation techniques: a survey. (PMC8879519)", "b"),
-        ("Anticipated Network Surveillance: predicting cyber-attacks using ML and data "
-         "analytics - arXiv:2312.17270.", "b"),
-        ("Representation learning", "h"),
+        ("Husak, Bartos, Sokol & Gajdos - Predictive methods in cyber defense: current "
+         "experience and research challenges. Future Gener. Comput. Syst. 115 (2021) "
+         "517-530.", "b",
+         ("doi.org/10.1016/j.future.2020.10.006",
+          "https://doi.org/10.1016/j.future.2020.10.006")),
+        ("Albasheer et al. - Cyber-attack prediction based on network intrusion detection "
+         "systems for alert correlation techniques: a survey. Sensors 22(4):1494, 2022. "
+         "Open access.", "b",
+         ("pmc.ncbi.nlm.nih.gov/articles/PMC8879519",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC8879519/")),
+        ("Srivastava et al. - Anticipated Network Surveillance: predicting cyber-attacks "
+         "using ML and data analytics, 2023.", "b",
+         ("arxiv.org/abs/2312.17270", "https://arxiv.org/abs/2312.17270")),
+
+        ("Representation learning and attribution", "h"),
         ("Bardes, Ponce & LeCun - VICReg: variance-invariance-covariance regularization, "
-         "ICLR 2022. Used for the anti-collapse term. LeCun - A Path Towards Autonomous "
-         "Machine Intelligence, 2022, for the latent-predictive (JEPA) objective.", "b"),
-        ("MITRE ATT&CK for tactic-stage labelling. Sundararajan, Taly & Yan - Axiomatic Attribution for Deep Networks, ICML 2017 (integrated gradients).", "b"),
+         "ICLR 2022. The anti-collapse term.", "b",
+         ("arxiv.org/abs/2105.04906", "https://arxiv.org/abs/2105.04906")),
+        ("LeCun - A Path Towards Autonomous Machine Intelligence, 2022. The latent-"
+         "predictive (JEPA) objective.", "b",
+         ("openreview.net/forum?id=BZ5a1r-kVsf",
+          "https://openreview.net/forum?id=BZ5a1r-kVsf")),
+        ("Sundararajan, Taly & Yan - Axiomatic Attribution for Deep Networks, ICML 2017 "
+         "(integrated gradients).", "b",
+         ("arxiv.org/abs/1703.01365", "https://arxiv.org/abs/1703.01365")),
+        ("MITRE ATT&CK, for tactic-stage labelling.", "b",
+         ("attack.mitre.org", "https://attack.mitre.org/")),
+
         ("Data and scale", "h"),
-        ("CTU-13 botnet captures, Stratosphere Lab, CTU Prague (Garcia et al., 2014). CERT-In / PIB: 29.44 lakh incidents handled in 2025, up 85% on 2023.", "b"),
+        ("CTU-13 botnet captures, Stratosphere Laboratory, CTU Prague - the corpus every "
+         "measured number on these slides comes from.", "b",
+         ("stratosphereips.org/datasets-ctu13",
+          "https://www.stratosphereips.org/datasets-ctu13")),
+        ("Garcia, Grill, Stiborek & Zunino - An empirical comparison of botnet detection "
+         "methods. Computers & Security 45 (2014) 100-123. The CTU-13 paper.", "b",
+         ("doi.org/10.1016/j.cose.2014.05.011",
+          "https://doi.org/10.1016/j.cose.2014.05.011")),
+        ("CERT-In / PIB: 29.44 lakh incidents handled in 2025, up 85% on 2023.", "b",
+         ("pib.gov.in press release, 23 Jan 2026",
+          "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/jan/"
+          "doc2026123764501.pdf")),
+
         ("Our work", "h"),
         ("Repository with all experiments, pre-registered predictions and printed "
          "verdicts, and one-command reproduction:", "b",
          ("github.com/AKRai-2005/kalachakra",
           "https://github.com/AKRai-2005/kalachakra")),
-    ], accent=ACCENT, size=11, gap=3.5,
+    ], accent=ACCENT, size=9.5, gap=2.2,
         left=0.67, top=1.28, width=12.0, height=5.45)
 
     prs.save(str(OUT))
