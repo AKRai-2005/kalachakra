@@ -72,6 +72,7 @@ from kalachakra.state.graph import (  # noqa: E402
     GraphBuilder, N_GLOBAL_F, N_NODE_F, flat_window_features, hosts_from_config,
     stack_episode,
 )
+from kalachakra.provenance import environment, stamped  # noqa: E402
 
 RESULTS = ROOT / "results"
 RESULTS.mkdir(exist_ok=True)
@@ -415,7 +416,8 @@ def main() -> None:
         print("     the same history. The headline claim must be rewritten, not reworded.")
 
     (RESULTS / "exp01_leadtime.json").write_text(json.dumps(
-        {"auc": {"LogisticRegression": auc_lr, "GBDT": auc_gb,
+        {
+        "environment": environment(),"auc": {"LogisticRegression": auc_lr, "GBDT": auc_gb,
                  "LSTM": auc_lstm, "WorldModel": auc_wm},
          # Window-level F1 against a logistic-regression floor, which the
          # problem statement asks for by name. Threshold swept on train.

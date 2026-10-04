@@ -74,6 +74,7 @@ from kalachakra.explain import attribute  # noqa: E402
 from kalachakra.state.graph import (  # noqa: E402
     GraphBuilder, N_GLOBAL_F, N_NODE_F, hosts_from_config,
 )
+from kalachakra.provenance import environment, stamped  # noqa: E402
 
 RESULTS = ROOT / "results"
 N_CASES = 40          # how many cases the console offers; the rest score the stats
@@ -317,6 +318,7 @@ def main() -> None:
         },
         "cases": cases,
     }
+    payload = stamped(payload)
     (RESULTS / "demo_trajectories.json").write_text(json.dumps(payload, indent=1))
     size = (RESULTS / "demo_trajectories.json").stat().st_size / 1024
     print(f"      {size:.0f} KB")

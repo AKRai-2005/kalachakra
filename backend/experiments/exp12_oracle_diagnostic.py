@@ -63,6 +63,7 @@ from exp11_paired_effect_loss import N_PAIRS, evaluate, pack, train
 
 from kalachakra.data.episodes import EpisodeConfig, EpisodeGenerator  # noqa: E402
 from kalachakra.state.graph import GraphBuilder, hosts_from_config  # noqa: E402
+from kalachakra.provenance import environment, stamped  # noqa: E402
 
 RESULTS = ROOT / "results"
 
@@ -159,6 +160,7 @@ def main() -> None:
         print("     say plainly that the model predicts an average effect only.")
 
     (RESULTS / "exp12_verdicts.json").write_text(json.dumps({
+        "environment": environment(),
         "IS_A_DIAGNOSTIC": True,
         "WARNING": "trained on the evaluation target; not a performance claim",
         "oracle_target_sd": float(oracle.std()),

@@ -63,6 +63,7 @@ from kalachakra.dynamics.world_model import (  # noqa: E402
 from kalachakra.state.graph import (  # noqa: E402
     GraphBuilder, N_GLOBAL_F, N_NODE_F, hosts_from_config, stack_episode,
 )
+from kalachakra.provenance import environment, stamped  # noqa: E402
 
 RESULTS = ROOT / "results"
 RESULTS.mkdir(exist_ok=True)
@@ -232,6 +233,7 @@ def main() -> None:
         print("     the transition, and the write-up must say so.")
 
     (RESULTS / "exp10_verdicts.json").write_text(json.dumps({
+        "environment": environment(),
         "n_test_pairs": len(te_pairs), "n_pairs": N_PAIRS, "horizon": HORIZON,
         "ground_truth": {"mean_p_contain": float(p_true.mean()),
                          "frac_worked": float(worked.mean())},

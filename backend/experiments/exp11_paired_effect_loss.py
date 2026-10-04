@@ -75,6 +75,7 @@ from kalachakra.dynamics.world_model import TrainConfig, WorldModel, vicreg
 from kalachakra.state.graph import (  # noqa: E402
     GraphBuilder, N_GLOBAL_F, N_NODE_F, hosts_from_config, stack_episode,
 )
+from kalachakra.provenance import environment, stamped  # noqa: E402
 
 RESULTS = ROOT / "results"
 RESULTS.mkdir(exist_ok=True)
@@ -296,6 +297,7 @@ def main() -> None:
         print("     next mechanism will fix it.")
 
     (RESULTS / "exp11_verdicts.json").write_text(json.dumps({
+        "environment": environment(),
         "n_pairs": N_PAIRS, "n_test_pairs": len(te_pairs),
         "epochs": EPOCHS, "pairs_per_epoch": PAIRS_PER_EPOCH,
         "w_effect": W_EFFECT, "horizon": HORIZON,

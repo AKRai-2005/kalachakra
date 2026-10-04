@@ -80,6 +80,7 @@ from exp14_ctu13_leadtime import MAX_FPR, N_HOSTS, wm_scores  # noqa: E402
 from kalachakra.dynamics.world_model import TrainConfig  # noqa: E402
 from kalachakra.metrics.leadtime import lead_at_fpr  # noqa: E402
 from kalachakra.state.graph import GraphBuilder  # noqa: E402
+from kalachakra.provenance import environment, stamped  # noqa: E402
 
 RESULTS = ROOT / "results"
 CACHE = RESULTS / "ctu13_episodes_full.pkl"
@@ -223,6 +224,7 @@ def main() -> int:
         "verdicts": verdicts,
         "detail": detail,
     }
+    payload = stamped(payload)
     (RESULTS / "exp17_verdicts.json").write_text(json.dumps(payload, indent=1))
     print("\n  wrote results/exp17_verdicts.json")
     print(f"  total {time.time() - t0:.0f}s")

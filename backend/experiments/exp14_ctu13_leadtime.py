@@ -90,6 +90,7 @@ from exp01_leadtime import (  # noqa: E402
 from kalachakra.data.ctu13 import ScenarioConfig, load_scenario  # noqa: E402
 from kalachakra.metrics.leadtime import lead_at_fpr  # noqa: E402
 from kalachakra.state.graph import GraphBuilder  # noqa: E402
+from kalachakra.provenance import environment, stamped  # noqa: E402
 
 RESULTS = ROOT / "results"
 DATA = ROOT / "data" / "ctu13" / "CSV-originals"
@@ -356,6 +357,7 @@ def main() -> int:
                         "intermediate ATT&CK stages (CTU-13 labels are "
                         "botnet / normal / background only)"],
     }
+    payload = stamped(payload)
     (RESULTS / "exp14_verdicts.json").write_text(json.dumps(payload, indent=1))
     print("\n  wrote results/exp14_verdicts.json")
     print(f"  total {time.time() - t0:.0f}s")

@@ -90,6 +90,7 @@ from kalachakra.state.graph import (  # noqa: E402
     GraphBuilder, N_GLOBAL_F, N_NODE_F, flat_window_features, hosts_from_config,
     stack_episode,
 )
+from kalachakra.provenance import environment, stamped  # noqa: E402
 
 RESULTS = ROOT / "results"
 RESULTS.mkdir(exist_ok=True)
@@ -316,7 +317,8 @@ def main() -> None:
     print(f"\n  latent effective rank {diag['effective_rank']:.1f} of {diag['dim']}")
 
     (RESULTS / "exp02_counterfactual.json").write_text(json.dumps(
-        {"n_test_pairs": len(te_pairs), "horizon": HORIZON,
+        {
+        "environment": environment(),"n_test_pairs": len(te_pairs), "horizon": HORIZON,
          "ground_truth": {"mean_p_contain": float(p_true.mean()),
                           "frac_worked": float(actual.mean())},
          "world_model": res_wm, "action_aware_lstm": res_ls,
